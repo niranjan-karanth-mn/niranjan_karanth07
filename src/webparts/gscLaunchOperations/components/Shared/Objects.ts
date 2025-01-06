@@ -1,0 +1,36 @@
+export const colorObj = {
+    greenbtnBg: '49C144',
+    greenBtnTextColor: '000000',
+    yellowBtnBg: 'FFD636',
+    yellowBtnTextColor: '000000',
+    greyBtnBg: '808080',
+    greyBtnTextColor: 'FFFFFF',
+    // redBtnBg: 'FF372E',
+    redBtnBg: 'F58082',
+    redBtnTextColor: 'FFFFFF',
+    completeBtnTextColor: 'FFFFFF',
+    completeBtnBg: '779FEC',
+};
+
+export const statusValues = [
+    { key: 'At Risk', value: "At Risk", id: 'Yellow', bgColor: colorObj?.yellowBtnBg, color: colorObj?.yellowBtnTextColor },
+    { key: 'Medium', value: "Medium", id: 'Yellow', bgColor: colorObj?.yellowBtnBg, color: colorObj?.yellowBtnTextColor },
+    { key: 'Completed', value: "Completed", id: 'Blue', bgColor: colorObj?.completeBtnBg, color: colorObj?.completeBtnTextColor },
+    { key: 'Complete', value: "Complete", id: 'Blue', bgColor: colorObj?.completeBtnBg, color: colorObj?.completeBtnTextColor },
+    { key: 'Delayed', value: "Delayed", id: 'Red', bgColor: colorObj?.redBtnBg, color: colorObj?.redBtnTextColor },
+    { key: 'High Risk', value: "High Risk", id: 'Red', bgColor: colorObj?.redBtnBg, color: colorObj?.redBtnTextColor },
+    { key: 'On Track', value: "On Track", id: 'Green', bgColor: colorObj?.greenbtnBg, color: colorObj?.greenBtnTextColor },
+    { key: 'High', value: "High", id: 'Red', bgColor: colorObj?.redBtnBg, color: colorObj?.redBtnTextColor },
+    { key: 'Low', value: "Low", id: 'Green', bgColor: colorObj?.greenbtnBg, color: colorObj?.greenBtnTextColor },
+    { key: 'Active', value: "Active", id: 'Green', bgColor: colorObj?.greenbtnBg, color: colorObj?.greenBtnTextColor },
+    { key: 'Blank', value: "Blank", id: 'Green', bgColor: colorObj?.greyBtnBg, color: colorObj?.greyBtnTextColor },
+    { key: 'Cancelled', value: "Cancelled", id: 'Red', bgColor: colorObj?.redBtnBg, color: colorObj?.redBtnTextColor },
+    { key: 'Planned', value: "Planned", id: 'Yellow', bgColor: colorObj?.yellowBtnBg, color: colorObj?.yellowBtnTextColor },
+    { key: 'Yellow', value: "At Risk", id: 'Yellow', bgColor: colorObj.yellowBtnBg, color: colorObj.yellowBtnTextColor },
+    { key: 'Blue', value: "Complete", id: 'Blue', bgColor: colorObj.completeBtnBg, color: colorObj.completeBtnTextColor },
+    { key: 'Red', value: "Delayed", id: 'Red', bgColor: colorObj.redBtnBg, color: colorObj.redBtnTextColor },
+    { key: 'Green', value: "On Track", id: 'Green', bgColor: colorObj.greenbtnBg, color: colorObj.greenBtnTextColor },
+    { key: 'Grey', value: "Not Initiated", id: 'Grey', bgColor: colorObj.greyBtnBg, color: colorObj.greyBtnTextColor },
+    { key: 'Not Initiated', value: "Not Initiated", id: 'Grey', bgColor: colorObj.greyBtnBg, color: colorObj.greyBtnTextColor },
+
+];

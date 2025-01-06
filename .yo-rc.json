@@ -1,0 +1,16 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "plusBeta": false,
+    "isCreatingSolution": true,
+    "version": "1.14.0",
+    "libraryName": "gsc-launch-operations",
+    "libraryId": "a88c661a-48b0-4fe6-9796-b91d13c07d3e",
+    "environment": "spo",
+    "packageManager": "npm",
+    "solutionName": "gsc-launch-operations",
+    "solutionShortDescription": "gsc-launch-operations description",
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "componentType": "webpart"
+  }
+}

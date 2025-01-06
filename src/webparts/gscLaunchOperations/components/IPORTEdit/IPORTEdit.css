@@ -1,0 +1,9 @@
+.recordStatusOuterContainer {
+    /* width: -webkit-fill-available; */
+    position: relative !important;
+    /* top:0; */
+    float: right;
+    z-index: 1000 !important;
+    display: inline-flex;
+    align-items: center;
+}

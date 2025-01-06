@@ -1,0 +1,81 @@
+.VerificationGrid .rect {
+  text-align: center;
+  font-size: 30px;
+  height: 100%;
+  margin-left: -10px;
+}
+
+.dx-widget:has(.dx-datagrid) {
+  margin: auto !important;
+}
+
+.VerificationGrid .rect1 {
+  text-align: center;
+  font-size: 30px;
+  height: 100%;
+  width: 95%;
+  margin-left: -10px;
+}
+
+.VerificationGrid {
+  flex: 1;
+}
+
+.VerificationGrid .demo-dark {
+  /* background: #000080; */
+  background: #800080;
+}
+
+.VerificationGrid .small {
+  height: 50px;
+  border: 1px solid lightgray;
+}
+
+.VerificationGrid .collapse :not(.show) {
+  display: none;
+
+}
+
+.VerificationGrid .collapsing {
+  height: 0;
+  overflow: scroll;
+}
+
+.dx-datagrid .dx-scrollable-scrollbar.dx-scrollbar-horizontal,
+.dx-datagrid .dx-scrollable-scrollbar.dx-scrollbar-horizontal .dx-scrollable-scroll {
+  /* height: 15px; */
+  height: 10px;
+}
+.ReasonCodeListBoxHeaders{
+  text-align: center;
+   font-weight: bold;
+    margin: 2px;
+}
+
+.ReasonCodeListBoxHeaders{
+  font-weight: bold;
+   font-size: 20px;
+   display:block;
+}
+.ReasonCodeListBox .p-listbox-list-wrapper{
+background-color: white !important;
+
+}
+.ReasonCodeListBox .p-listbox-item{
+  color:black !important;
+}
+
+.ReasonCodeText{
+  padding-left:2% !important;
+}
+
+.ReasonCodeListBox .p-listbox:not(.p-disabled) .p-listbox-item:not(.p-highlight):not(.p-disabled):hover7{
+  background-color: none !important;
+}
+
+.ReasonCodeListBox .p-listbox-item:has(.p-checkbox-checked){
+  background:#EEF2FF !important;
+}
+.ReasonCodeListBox .p-listbox-item:has(.p-checkbox-checked) .ReasonCodeText{
+  color:#4338CA !important;
+}

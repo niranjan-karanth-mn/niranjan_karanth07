@@ -1,0 +1,40 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "gsc-launch-operations-client-side-solution",
+    "id": "a88c661a-48b0-4fe6-9796-b91d13c07d3e",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true,
+    "isDomainIsolated": false,
+    "developer": {
+      "name": "",
+      "websiteUrl": "",
+      "privacyUrl": "",
+      "termsOfUseUrl": "",
+      "mpnId": "Undefined-1.14.0"
+    },
+    "metadata": {
+      "shortDescription": {
+        "default": "gsc-launch-operations description"
+      },
+      "longDescription": {
+        "default": "gsc-launch-operations description"
+      },
+      "screenshotPaths": [],
+      "videoUrl": "",
+      "categories": []
+    },
+    "features": [
+      {
+        "title": "gsc-launch-operations Feature",
+        "description": "The feature that activates elements of the gsc-launch-operations solution.",
+        "id": "d3bd82e5-e0a1-4734-ae3d-6bbce55e150b",
+        "version": "1.0.0.0"
+      }
+    ]
+  },
+  "paths": {
+    "zippedPackage": "solution/gsc-launch-operations.sppkg"
+  }
+}

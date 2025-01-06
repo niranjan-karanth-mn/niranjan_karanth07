@@ -1,0 +1,625 @@
+.ProductPagesParentTab>.p-tabview-nav-container {
+    border-bottom: none !important;
+}
+
+.summaryGrid .dx-datagrid-borders>.dx-datagrid-filter-panel,
+.dx-datagrid-borders>.dx-datagrid-headers {
+    margin-top: 0 !important;
+}
+
+.PP_Tab>.p-tabview-nav-link {
+    /* background-color: #a9aeae !important; */
+    color: navy !important;
+    border: 2px solid navy !important;
+    /* padding:1% !important */
+}
+
+.editIconImg {
+    margin: 5px !important;
+}
+
+.accomActiveSpan {
+    float: right !important;
+    display: inline-flex !important;
+    margin-right: 3% !important;
+    margin-bottom: 0.5%;
+    justify-content: end !important;
+}
+
+/* label {
+    padding-left: 0.2rem !important;
+} */
+
+.ProductPagesParentTab .p-tabview-panels {
+    padding-left: 0 !important;
+}
+
+.PP_Tab .p-tabview-title {
+    font-size: 12px;
+}
+
+/* .PP_tab .p-tabview-nav-link{
+    padding:1% !important
+} */
+
+/* 
+/* #fff1ce MilestoneGrid */
+
+.AccomGrid .dx-toolbar,
+.ActGrid .dx-toolbar,
+.MilestoneGrid .dx-toolbar,
+.RiskAssGrid .dx-toolbar {
+    background-color: #0000c9 !important;
+    color: white !important;
+}
+
+*/ .summaryGrid .dx-toolbar-after {
+    align-items: center;
+}
+
+.QuadViewRow2 {
+    margin-top: 1% !important;
+}
+
+/* .QuadViewRow2{
+    /* margin-left:-4% !important */
+/* }  */
+.PP_Tab {
+    font-size: 12px !important;
+}
+
+.PP_Tab .p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    padding: .65rem 0.5rem !important;
+    font-weight: 500 !important;
+}
+
+.summaryGrid .dx-toolbar {
+    padding-left: 5px !important;
+}
+
+.gridHeader1 {
+    color: white !important;
+    font-weight: bold;
+}
+
+.gridHeader2 {
+    font-weight: bold;
+}
+
+.p-selectbutton .p-button.p-component {
+    margin-right: 0px !important;
+}
+
+/* project list color - jefin */
+div.p-listbox.p-component {
+    border-color: #000080 !important;
+}
+
+/* project list color - jefin */
+.ProjectList div.p-listbox.p-component {
+    border-color: #e2d5fd !important;
+}
+
+.p-dropdown-items-wrapper {
+    max-height: 200px !important;
+}
+
+.invalidMsg {
+    font-size: 14px;
+    color: red;
+    margin-left: 5px;
+    margin-top: 3px;
+}
+
+.dropdownCntrlPP {
+    min-height: 60% !important;
+    /* max-height:200px  !important; */
+}
+
+.IsActiveCheckbox {
+    margin-right: 5% !important;
+}
+
+.riskAssRow2 {
+    margin-top: 2% !important;
+}
+
+.p-inputwrapper-focus.p-invalid {
+    border-color: #dc3545 !important;
+}
+
+.summaryGrid {
+    height: 55vh !important;
+    /* height: 30vh !important; */
+    /* font-size: small !important; */
+}
+
+.PPexportBtn>.dx-buttongroup-item.dx-button.dx-button-mode-contained:not(.dx-item-selected) {
+    background-color: navy !important;
+    color: white !important;
+    font-weight: bold !important;
+    height: 36px !important;
+    width: 100px !important;
+    font-weight: 700 !important;
+}
+
+.PPexportBtn .dx-buttongroup-item.dx-button.dx-button-mode-contained.dx-button-normal {
+    /* .PPexportBtn>.dx-buttongroup-item.dx-button.dx-button-mode-contained:not(.dx-item-selected){ */
+    background-color: navy !important;
+}
+
+.PPexportBtn .dx-button-mode-contained .dx-icon {
+    color: white !important;
+}
+
+.PPexportBtn {
+    float: right;
+    color: white;
+    vertical-align: middle !important;
+    margin-top: 1% !important;
+    /* width: 120px;
+    height: 46px !important; */
+}
+
+.attachHeader {
+    padding: 1%;
+    margin: 2% 0% !important;
+    /* width: 95%; */
+    border-radius: 3px;
+}
+
+.deepDiveHeader {
+    padding: 0%;
+    margin: 1% 0% !important;
+    /* width: 95%; */
+    border-radius: 3px;
+}
+
+.fieldContainer {
+    padding-left: 1.5%;
+    padding-bottom: 4% !important;
+}
+
+.AttachLabel {
+    background-color: #d7fdd9 !important;
+    color: black !important;
+}
+
+.attachLink {
+    color: rgb(10, 88, 202);
+    text-decoration: underline;
+    padding-right: 2% !important;
+}
+
+.clearAttachIcon {
+    vertical-align: middle;
+    font-size: 15px;
+}
+
+.attachRow {
+    margin: 2% 0% !important;
+}
+
+.deepDiveRow {
+    margin: 1% 0% !important;
+}
+
+
+.dx-icon-clear {
+    color: #d43f3a !important;
+}
+
+.progName {
+    color: navy;
+    font-size: large !important;
+    font-weight: 600;
+}
+
+.keyProdHeader,
+.supplyChainHeader,
+.foreCastHeader {
+    background-color: #1976d2 !important;
+    color: white;
+    padding: 5px;
+    font-size: 17px;
+    font-weight: bold;
+}
+
+.foreCastHeader {
+    margin-top: 1%;
+}
+
+.sView2Header1 {
+    margin-left: 2px;
+    /* margin-top: 1%; */
+    padding-bottom: 3%;
+}
+
+.QuadViewPage2 .p-accordion-content {
+    padding-top: 1% !important;
+}
+
+.keyProdField {
+    color: #07315b;
+    font-weight: bold;
+    width: auto !important;
+}
+
+.keyProdDiv {
+    margin-top: 2%;
+}
+
+.summaryGrid .dx-datagrid.dx-gridbase-container {
+    height: 55vh !important;
+}
+
+.summaryGrid .dx-freespace-row.dx-column-lines {
+    background: none !important;
+}
+
+/* commenting as it is creating empty space when we define rowTemplate */
+/* .dx-datagrid-rowsview .dx-row.dx-row-lines:last-child,
+.dx-datagrid-rowsview .dx-row.dx-row-lines:last-child>td,
+.dx-datagrid-rowsview .dx-row.dx-row-lines:last-child>tr>td {
+    padding-bottom: 5% !important;
+} */
+
+.KeyProdImgDiv,
+.prodImgCntrl {
+    width: 350px;
+    height: 215px;
+    object-fit: contain;
+    /* margin: auto; */
+}
+
+.KeyProdImgDiv {
+    border: 1px dashed;
+}
+
+.keyProdSpan {
+    display: flex;
+}
+
+.keyProdFileUpload .p-fileupload-choose::before {
+    content: none !important;
+}
+
+.keyProdFileUpload {
+    position: relative;
+    margin: auto;
+    text-align: center;
+    top: 47%;
+    transform: translateY(-50%);
+}
+
+.keyProdHeader2Val {
+    float: right !important;
+    /* margin: 1%; */
+    /* padding:1% !important; */
+    white-space: nowrap;
+}
+
+.keyProdLastHeader {
+    float: right !important;
+    padding-right: 5% !important;
+    white-space: nowrap;
+}
+
+.keyProdHeader2 {
+    background-color: green !important;
+    color: white !important;
+    display: flex;
+    padding: 1.25% !important;
+}
+
+.keyprodComm {
+    margin-top: 1% !important;
+    margin-bottom: 0.5% !important;
+}
+
+.toggleBtnTxt {
+    color: white !important;
+}
+
+.toggleBtnTxtPP {
+    color: navy !important;
+}
+
+.toggleBtn {
+    /* width: 9rem; */
+    background-color: rgb(0, 0, 201) !important;
+    border-color: rgb(0, 0, 201) !important;
+}
+
+.toggleBtnPP {
+    background-color: white !important;
+    height: 2rem !important;
+}
+
+.p-button.toggleBtnPP {
+    height: 2rem !important;
+}
+
+.toggleBtnTxt1 {
+    padding-right: 5px !important;
+}
+
+.toggleBtnTxt2 {
+    padding-left: 5px !important;
+}
+
+
+.newRecBtn {
+    background-color: #0000C9 !important;
+}
+
+.newRecIcon {
+    padding-right: 0.4rem !important;
+}
+
+.summaryGrid .dx-toolbar-after {
+    align-items: center !important;
+}
+
+.oneSrcKeyProdVal {
+    border: 2px solid grey;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    border-left: 5px solid #AD17E5;
+}
+
+.PPexportBtn .dx-button-text {
+    font-weight: bold;
+}
+
+.PPTabBtn {
+    background-color: white !important;
+    color: navy !important;
+    border: 2px solid navy !important;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+}
+
+.QuadViewBtn,
+.AccomplishmentsBtn,
+.ActivitiesBtn,
+.MilestonesBtn,
+.RiskAssessmentsBtn {
+    background-color: navy !important;
+    color: white !important;
+    border: 2px solid navy !important;
+}
+
+.p-button.p-component.PPTabBtn>.p-button-label {
+    font-size: 12px !important;
+    font-weight: 600;
+}
+
+.p-button.p-component.PPTabBtn {
+    /* margin-right: 1% !important; */
+    border-radius: 0 !important;
+    padding: 0.3rem !important;
+}
+
+.p-inputswitch-slider {
+    height: 87% !important;
+    margin: auto;
+}
+
+.ProjeDetailHeaderExportBtnDiv {
+    display: flex !important;
+    justify-content: space-between;
+    margin-bottom: 2% !important;
+    float: right;
+    margin-right: 1% !important;
+}
+
+.PPexportBtn>.dx-buttongroup.dx-widget {
+    width: auto !important;
+    height: auto !important;
+}
+
+.AccomplishmentGrid.dx-widget,
+.ActivitiesGrid.dx-widget,
+.RiskAssessmentGrid.dx-widget,
+.PPMilestonesGrid.dx-widget,
+.AccomGrid.dx-widget,
+.MilestoneGrid.dx-widget,
+.ActGrid.dx-widget,
+.RiskAssGrid.dx-widget,
+.MasterDetailGrid.dx-widget {
+    margin: 0 !important;
+}
+
+.dx-column-lines.disableInActiveRow {
+    background-color: #dbd6d1 !important;
+    font-weight: normal !important;
+}
+
+.dx-column-lines.gridRowCls {
+    font-weight: normal !important;
+}
+
+.dx-row.dx-column-lines.dx-header-row.disableInActiveRow {
+    background-color: #e2d5fd !important;
+    font-weight: 700 !important;
+}
+
+.PPHeader2Container {
+    /* background-color: green !important; */
+    color: navy !important;
+    /* outline:2px solid navy !important; */
+    /* display: flex;
+     flex-wrap: wrap;
+     gap: 23px;
+     padding:8px 14px; */
+}
+
+.colVal {
+    width: auto;
+    line-height: 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.label {
+    font-weight: 200;
+    padding-bottom: 5px !important;
+    /* border-bottom: 1px solid white; */
+    background-color: navy !important;
+    color: white !important;
+    /* border:3px solid navy !important; */
+    border-right: 3px solid white !important;
+    border-bottom: none;
+}
+
+.ProjectList .label {
+    font-weight: 200;
+    padding-bottom: 5px !important;
+    background-color: navy !important;
+    color: white !important;
+    border: 1px solid navy !important;
+}
+
+.value {
+    border-right: 1px solid navy !important;
+    border-bottom: 1px solid navy !important;
+    border-top: none;
+    border-left: none;
+    color: black;
+}
+
+.label,
+.value {
+    /* text-align: center; */
+    font-size: 12px;
+    padding: 2px 8px !important;
+
+}
+
+.val1 {
+    border-left: 1px solid navy !important;
+}
+
+.ql-image {
+    display: none !important;
+}
+.confirmBtn {
+    background-color: green!important;
+    color: #fff!important;
+    border-color: green!important;
+}
+.cancelBtn {
+    background-color: #f50057!important;
+    color: #fff!important;
+    border-color: #f50057!important;    
+}
+.ProdDetailsSupplyChainBtn,
+.ForecastCapacityBtn,
+.KeyMilestonesBtn,
+.RiskAssessmentsBtn {
+    border-radius: 0!important;
+    background-color: navy!important;
+    color: white !important;
+    border: 2px solid navy !important;
+}
+/* .breadcrumb {
+    list-style-type: none;
+}
+.v1 .breadcrumb-level { 
+&::before,
+&::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    height: 50%;
+    width: 100%;
+    background: navy;
+    z-index: -1;
+}
+&::before{
+    top: 0;
+    transform: skew(20deg);
+}
+&::after {
+    bottom: 0;
+    transform: skew(-20);
+}
+}
+.breadcrumb-level {
+    display: inline-block;
+    position: relative;
+
+}
+.breadcrumb-level a {
+    display: inline-block;
+    position: relative;
+    line-height: 2.5;
+    padding: 0 20px;
+    color: #fff;
+    text-decoration: none;
+} */
+.breadcrumb {
+	list-style-type: none;	
+}
+
+.v1 .breadcrumb-level {
+	&::before,
+	&::after{
+		content: '';
+		position: absolute;
+		left: 0;
+		height: 50%;
+		width: 100%;
+		background: navy;
+		z-index: -1;
+	}
+	
+	&::before {
+		top: 0;
+		transform: skew(20deg);
+	}
+	
+	&::after {
+		bottom: 0;
+		transform: skew(-20deg);
+	}
+}
+
+.breadcrumb-level {
+	display: inline-block;
+	position: relative;	
+    margin: 0px 2px;
+	&:last-child {
+		a {
+			cursor: default;
+		}
+		
+		&::before,
+		&::after {
+			background: lighten(navy, 10%);
+		}
+	}
+		
+	&:not(:last-child):hover {
+		&::before,
+		&::after {			
+            background-color: darken(navy, 10%);
+		}
+	}
+}
+
+.breadcrumb-level div {
+	display: inline-block;
+	position: relative;
+	line-height: 2.5;
+	padding: 0 20px;
+	color: #fff;
+	text-decoration: none;
+}
+.PPTabDiv {
+    background-color: white !important;
+    color: navy !important;    
+}
+

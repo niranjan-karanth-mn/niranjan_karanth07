@@ -1,0 +1,109 @@
+.TabBtn {
+    background-color: white !important;
+    color: navy !important;
+    border: 2px solid navy !important;
+    border-top-right-radius: 4px;
+    border-top-left-radius: 4px;
+    border-radius: 2px !important;
+}
+.ProdDetailsSupplyChainBtn,
+.ForecastCapacityBtn,
+.KeyMilestonesBtn,
+.RiskAssessmentsBtn,
+.QuadViewBtn {
+    border-radius: 0!important;
+    background-color: navy!important;
+    color: white !important;
+    border: 2px solid navy !important;
+}
+
+
+
+.deepDiveQuad1Header {
+    background: #0000c9 !important;
+    color: white !important;
+    padding: 1.25%;
+    width: -webkit-fill-available;
+    display: block;
+    font-weight: bold !important;
+}
+
+.deepDiveQ1Label {
+    font-weight: bold;
+    width: 35% !important;
+    border: 1px solid #0000c9 !important;
+}
+
+.deepDiveQ1ProdDetailsTable {
+    width: -webkit-fill-available;
+    margin-top: 1% important;
+}
+
+.deepDiveQ1Label,
+.deepDiveQ1Val {
+    padding: 0.5rem !important;
+    border: 1px solid #0000c9 !important;
+}
+
+.DDForecastFields {
+    margin: 1% 0% 0% 1%;
+}
+
+.floatCols {
+    margin-top: 4%;
+}
+
+.p-float-label>label {
+    left: 0 !important;
+    color: #000000 !important;
+}
+
+.DDKeyProdLabel,
+.DDkeyProdVal {
+    font-size: 12px !important;
+}
+
+.DDKeyProdLabel {
+    font-weight: bold !important;
+}
+
+.DDkeyProdVal {
+    border: 1px solid #ced4da;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    min-height: 27px;
+}
+
+.DeepDiveKeyProdCol {
+    padding-right: 2% !important;
+}
+
+.DDKeyProdDetailsRow {
+    margin-bottom: 1% !important;
+}
+
+.dx-checkbox-checked .dx-checkbox-icon {
+    color: navy !important;
+}
+
+.DeepDiveForecastImgSection {
+    margin-top: 4% !important;
+}
+
+.p-button.DDexportBtn {
+    background-color: navy !important;
+    padding:1.3rem !important;
+    margin-top:3px !important;
+    margin-left:1% !important;
+}
+
+.DDSupplyChainGrid{
+    height:25vh  !important
+}
+
+.GLOWForecastImg{
+    display: block;
+    margin: auto;
+    object-fit: contain;
+}
+

@@ -1,0 +1,16 @@
+.headerForOtherPages {
+    background-color: #001689 !important;
+    /* color: white;  */
+    padding-top: 8px;
+    padding-bottom: 12px;
+    padding-left: 1%;
+    padding-right: 1%;
+    /* box-shadow: 0 0 16px rgb(0 0 0 / 10%); */
+    margin-left: 0px;
+    width: 100%;
+   /* height: 5px;  */
+    top: 0;
+    z-index: 999;
+    margin-top: -15px;
+    /* box-shadow: 0 0 16px rgb(0 0 0 / 10%); */
+  }

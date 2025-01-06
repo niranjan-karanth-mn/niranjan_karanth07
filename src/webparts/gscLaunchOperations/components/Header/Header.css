@@ -1,0 +1,198 @@
+.border {
+    border-bottom-style: solid;
+    border-bottom-color: white;
+  }
+  
+  .welcomeLinksClass .p-menubar {
+    background: none !important;
+    border: none !important;
+    display: inline-block;
+    font-family: 'notoRegular' !important;
+    ;
+    font-size: 1.0rem !important;
+    font-weight: 500 !important;
+  }
+  
+  .welcomeLinksClass .p-menubar .p-menubar-root-list>.p-menuitem>.p-menuitem-link:not(.p-disabled):hover {
+    background: none;
+  }
+  
+  .welcomeLinksClass .p-menubar .p-menubar-root-list>.p-menuitem.p-menuitem-active>.p-menuitem-link,
+  .welcomeLinksClass .p-menubar .p-menubar-root-list>.p-menuitem.p-menuitem-active>.p-menuitem-link:not(.p-disabled):hover {
+    background: none;
+  }
+  
+  .welcomeLinksClass .p-menubar .p-menubar-root-list>.p-menuitem>.p-menuitem-link .p-menuitem-text {
+  
+    font-weight: 500 !important;
+    font-size: 1rem !important;
+  }
+  
+  .welcomeLinksClass .p-menubar .p-menubar-root-list>.p-menuitem>.p-menuitem-link:focus {
+    box-shadow: none;
+  }
+  
+  .welcomeLinksClass .p-menubar .p-menubar-root-list>.p-menuitem>.p-menuitem-link .p-submenu-icon {
+    display: none !important;
+  }
+  
+  .icon {
+    background-color: #0303a3 !important;
+    border: #0303a3 !important;
+  }
+  
+  .content {
+    max-width: 2100px;
+    margin: auto;
+    background: white;
+    /* padding: 10px; //home page left and right padding css */
+  }
+  
+  .header {
+  
+    top: 0px;
+    left: 0px;
+    width:100%
+      /*1440px*/
+    ;
+    height: 70px;
+    /* UI Properties */
+    background: #FFFFFF 0% 0% no-repeat padding-box !important;
+    opacity: 1;
+    margin-bottom: -17px;
+    margin-top: 1rem !important;
+  }
+  
+  .siteName {
+    color: white !important;
+    font-size: 26px;
+    font-family: 'notoRegular';
+    display: flex;
+  }
+  
+  .pfizerLogo {
+    padding-right: 1px;
+  }
+  
+  .siteHeading {
+  
+    /* margin-top: -10px; */
+    /* margin-left: 15%; */
+    width: 460px;
+    font-weight: bold;
+    height: 24px;
+    /* UI Properties */
+    /* text-align: left; */
+    font-family: 'Noto sans';
+    font-size: 18px;
+    letter-spacing: 0.07px;
+    color: #101010;
+    opacity: 1;
+    padding-left: 2%;
+  }
+  
+  .feedbackBtn {
+    background-color: #001689 !important;
+    vertical-align: baseline !important;
+    font-size: 12px;
+  }
+  
+  
+  .userName {
+    padding-left: 5px;
+  }
+  
+  .adminName {
+    /* top: 30px;
+    left: 1313px; */
+    /* width: 83px; */
+    height: 22px;
+    /* UI Properties */
+    text-align: right;
+    font: normal normal normal 15px "Noto Sans";
+    letter-spacing: 0px;
+    color: #000000;
+    opacity: 1;
+    margin-left: 0px;
+  }
+  
+  .adminImg {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #fff 0 0 no-repeat padding-box;
+    opacity: 1;
+    /* margin-top: -7px; */
+    margin-right: 1rem;
+    margin-left: 1rem;
+  }
+  
+  .rightHeaderSection {
+    text-align: right;
+    padding-right: 0px !important;
+    color: black;
+    padding-top: 8px;
+  }
+  
+  .rightHeaderSection img {
+    height: 35px;
+    border-radius: 50px;
+    margin-left: 2px;
+  }
+  
+  .searchIcon {
+    position: absolute;
+    left: 2%;
+    top: 18%;
+  }
+  
+  element.style {
+    margin-left: 0px;
+  }
+  
+  .button1 {
+    outline: none;
+  }
+  
+  .logoClass {
+    /* Layout Properties */
+    /* margin-top: 1rem; */
+    left: 35px;
+    width: 85px;
+    height: 35px;
+    /* UI Properties */
+    background: #FFFFFF 0% 0% no-repeat padding-box;
+    opacity: 1;
+  }
+  
+  .header3 {
+    background: var(--pantone-662-c) 0% 0% no-repeat padding-box;
+    background: #001C71 0% 0% no-repeat padding-box;
+    border: 1px solid #FFFFFF75;
+    border-radius: 10px;
+    opacity: 1;
+  }
+  
+  .notificationImg{
+   font-size: 1.5em;
+     height: 32px;
+     padding-left: 1.5rem;
+     margin-left: 1rem;
+     margin-top: -0.2rem;
+     padding-right: 0.4rem;
+  }
+  
+  .user-info-container{
+    display: flex;
+    float: right;
+    align-items: center;
+    margin-top: -5px;
+  }
+  
+  .u-info-inner-container{
+    display: flex;
+    align-items: center;
+  }
+  .p-button-label {
+    font-size: 12px !important;
+  }

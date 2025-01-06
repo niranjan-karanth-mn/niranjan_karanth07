@@ -1,0 +1,185 @@
+.header2 {
+    background-color: #00329b !important;
+    /* color: white;  */
+    padding-top: 11px;
+    /* padding-bottom: 11px; */
+    padding-left: 1%;
+    padding-right: 1%;
+    box-shadow: 0 0 16px rgb(0 0 0 / 10%);
+    margin-left: 0px;
+    width: 100%;
+    /* height: 300px; */
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 0 16px rgb(0 0 0 / 10%);
+    margin-left: 0px;
+    padding-bottom: 3%;
+    display: flex;
+    align-items: flex-end;
+}
+
+.HomeStyle {
+    flex: 1;
+}
+
+.HomeStyle .b_b_beed2cf1 {
+    overflow-y: hidden !important;
+}
+
+
+.header3 {
+    background-color: #001689 !important;
+    /* color: white;  */
+    /* padding-top: 11px;
+     padding-bottom: 11px;
+     padding-left: 1%;
+     padding-right: 1%; */
+    box-shadow: 0 0 16px rgb(0 0 0 / 10%);
+    top: 0;
+    z-index: 999;
+    box-shadow: 0 0 16px rgb(0 0 0 / 10%);
+    width: 630px;
+    height: 88px;
+    border-radius: 10px;
+    width: auto !important;
+    margin-left: 15% !important;
+    margin-right: 15% !important;
+
+
+}
+
+.total {
+    text-align: center;
+    font: normal normal medium 12px/18px Noto Sans !important;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.totalNumber {
+    text-align: center;
+    font: normal normal 600 34px/44px Noto Sans !important;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 0.7;
+}
+
+.link,
+a {
+    margin-top: 2%;
+}
+
+.links {
+    color: var(--r-0-g-0-b-201);
+    text-align: left;
+    font: normal normal medium 18px/24px Noto Sans !important;
+    letter-spacing: 0px;
+    color: #0000C9;
+    opacity: 1;
+    text-decoration: none !important;
+}
+
+.p-listbox-empty-message {
+    color: white;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+.linkName {
+    font-size: 15px;
+    font-family: 'notoSans';
+    display: flex;
+    margin-left: 1015px;
+    top: 94px;
+    left: 1163px;
+    /* width: 64px; */
+    height: 20px;
+    /* UI Properties */
+    text-align: center;
+    letter-spacing: 0.06px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.showBorder {
+
+    font-size: 15px;
+    font-family: 'Noto sans';
+    padding-left: 15px;
+    border-left: 1px solid;
+    /* margin-left: 130px;
+    padding-left: 50px;  */
+    top: 94px;
+    /* left: 1328px; */
+    /* width: 68px; */
+    height: 20px;
+    /* UI Properties */
+    text-align: center;
+    letter-spacing: 0.06px;
+    color: #FFFFFF;
+    opacity: 1;
+    text-decoration: none;
+}
+
+.showBorder,
+.LMCodevA,
+.SMCodevA,
+.launchXA {
+    cursor: pointer;
+    padding-right: 14px;
+    padding-left: 14px;
+    color: white;
+    border-left: 1px solid;
+}
+
+.launchXA {
+    border-left: none !important;
+}
+
+
+.totallayout {
+    text-align: center;
+    font: normal normal medium 12px/18px Noto Sans !important;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+}
+
+.header1 {
+    background-color: #001689 !important;
+    /* color: white;  */
+    padding-top: 11px;
+    padding-bottom: 11px;
+    padding-left: 1%;
+    padding-right: 1%;
+    /* box-shadow: 0 0 16px rgb(0 0 0 / 10%); */
+    margin-left: 0px;
+    width: 100%;
+    height: 48px;
+    top: 0;
+    z-index: 999;
+    margin-top: -15px;
+    /* box-shadow: 0 0 16px rgb(0 0 0 / 10%); */
+}
+
+.launchXA,
+.LMCodevA,
+.SMCodevA,
+.showBorder :hover {
+    color: #FFFFFF !important;
+}
+
+.linkName :hover {
+    color: #FFFFFF;
+}
+
+.p-card .p-card-body {
+    padding: 2px !important;
+}
+
+.home-title {
+    padding-left: 3%;
+    margin-bottom: auto;
+}
