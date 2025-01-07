@@ -4171,9 +4171,21 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             let filteredGoldItems;
 
             if (this.state.SelectedGOLDStgData.TradeName !== null) {
-                filteredGoldItems = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.TradeName?.toLowerCase() || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item.Id !== this.state.SelectedGOLDStgData.Id?.toString() && item?.isDRPGSPlanExist === null)
+                const wordsToMatch = this.state.SelectedGOLDStgData.TradeName?.toLowerCase().split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+
+                const exactTradeNames = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName === this.state.SelectedGOLDStgData.TradeName && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null && item?.Country !== this.state.SelectedGOLDStgData.Country && item.Id !== this.state.SelectedGOLDStgData.Id?.toString())
+
+                const filteredGoldItemsWT = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null && item.Id !== this.state.SelectedGOLDStgData.Id?.toString());
+
+                const filteredGoldItemsX = filteredGoldItemsWT?.filter(item => {
+                    const tradenameWords = item?.TradeName?.split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+                    return wordsToMatch.reduce((acc, word) => acc || tradenameWords.includes(word), false);
+                })
+                filteredGoldItems = [...filteredGoldItemsX, ...exactTradeNames]
+
+                // filteredGoldItems = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.TradeName?.toLowerCase() || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase()) || item.TradeName?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item.Id !== this.state.SelectedGOLDStgData.Id?.toString() && item?.isDRPGSPlanExist === null)
             } else {
-                filteredGoldItems = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && (item.TradeName === this.state.SelectedGOLDStgData.TradeName || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item.Id !== this.state.SelectedGOLDStgData.Id?.toString() && item?.isDRPGSPlanExist === null)
+                filteredGoldItems = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && (item.TradeName === this.state.SelectedGOLDStgData.TradeName || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase()) || item.TradeName?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item.Id !== this.state.SelectedGOLDStgData.Id?.toString() && item?.isDRPGSPlanExist === null)
             }
 
             filteredGoldItems?.forEach(async (item, i) => {
@@ -4304,7 +4316,17 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             let allIndicationsForPList = [];
 
             if (this.state.SelectedGOLDStgData.TradeName !== null) {
-                filteredGoldItems = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.TradeName?.toLowerCase() || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null)
+                const wordsToMatch = this.state.SelectedGOLDStgData.TradeName?.toLowerCase().split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+
+                const exactTradeNames = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName === this.state.SelectedGOLDStgData.TradeName && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null && item?.Country !== this.state.SelectedGOLDStgData.Country)
+
+                const filteredGoldItemsWT = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null);
+
+                const filteredGoldItemsX = filteredGoldItemsWT?.filter(item => {
+                    const tradenameWords = item?.TradeName?.split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+                    return wordsToMatch.reduce((acc, word) => acc || tradenameWords.includes(word), false);
+                })
+                filteredGoldItems = [...filteredGoldItemsX, ...exactTradeNames]
             } else {
                 filteredGoldItems = goldItemsFromList?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && (item.TradeName === this.state.SelectedGOLDStgData.TradeName || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null)
             }
@@ -4464,9 +4486,19 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             }
             let allIndicationsForPList = [];
 
-            const goldItems = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", "*", "IsActive eq 1 and IsPlanExist ne 'Yes' and IsMerged ne 1", null)
-            const filteredGoldItems = goldItems.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.TradeName?.toLowerCase() || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null);
+            const wordsToMatch = this.state.SelectedGOLDStgData.TradeName?.toLowerCase().split(/\s+|,|\//).map(word => word.trim().toLowerCase());
 
+            const goldItems = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", "*", "IsActive eq 1 and IsPlanExist ne 'Yes' and IsMerged ne 1", null)
+            const filteredGoldItemsWT = goldItems.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null);
+
+            const exactTradeNames = goldItems?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName === this.state.SelectedGOLDStgData.TradeName && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null && item?.Country !== this.state.SelectedGOLDStgData.Country)
+
+            const filteredGoldItemsX = filteredGoldItemsWT?.filter(item => {
+                const tradenameWords = item?.TradeName?.split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+                return wordsToMatch.reduce((acc, word) => acc || tradenameWords.includes(word), false);
+            })
+
+            const filteredGoldItems = [...filteredGoldItemsX, ...exactTradeNames]
             
             const similarDRIDPlansInDLPP = await DataService.fetchAllDRListItemsWithFilters('DLPPList', `ID,DRID,Country,LaunchProgress,Template`, `DRID eq '${this.state?.selectedDRID}'`, '', null)
             const filtered = similarDRIDPlansInDLPP?.filter(item => (this.state.GOLDConfigData?.indexOf(item?.Template) !== -1 && (item.LaunchProgress !== "Cancelled")));
@@ -4615,7 +4647,18 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
     public beforeConfirmPop = async () => {
         this.checkAllIndicationExists(this.state.SelectedGOLDStgData.Indication?.split(';')).then(async res => {
             if (res) {
-                const similarDRIDs = this.state.GOLDStgListData?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && (item.TradeName?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.TradeName?.toLowerCase()) || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null)
+                const wordsToMatch = this.state.SelectedGOLDStgData.TradeName?.toLowerCase().split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+
+                const similarDRIDsWT = this.state.GOLDStgListData?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null);
+
+                const exactTradeNames = this.state.GOLDStgListData?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName === this.state.SelectedGOLDStgData.TradeName && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.isDRPGSPlanExist === null && item?.Country !== this.state.SelectedGOLDStgData.Country)
+
+                const similarDRIDsX = similarDRIDsWT?.filter(item => {
+                    const tradenameWords = item?.TradeName?.split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+                    return wordsToMatch.reduce((acc, word) => acc || tradenameWords.includes(word), false);
+                })
+
+                const similarDRIDs = [...similarDRIDsX, ...exactTradeNames]
 
                 // const codeFromGold = this.state.GOLDStgListData?.filter((item) => item?.Country === this.state.SelectedGOLDStgData?.Country)?.[0]?.ProposedCountryCode;
                 const similarDRIDPlansInDLPP = await DataService.fetchAllDRListItemsWithFilters('DLPPList', `ID,DRID,Country,LaunchProgress,Template`, `DRID eq '${this.state?.selectedDRID}'`, '', null)
@@ -5098,7 +5141,19 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                 if (res) {
                     let similarDRIDs;
                     if (this.state.SelectedGOLDStgData.TradeName !== null) {
-                        similarDRIDs = this.state.GOLDStgListData?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.TradeName?.toLowerCase() || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published')
+                        const wordsToMatch = this.state.SelectedGOLDStgData.TradeName?.toLowerCase().split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+
+                        const similarDRIDsWT = this.state.GOLDStgListData?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published');
+
+                        const exactTradeNames = this.state.GOLDStgListData?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && item.TradeName === this.state.SelectedGOLDStgData.TradeName && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published' && item?.Country !== this.state.SelectedGOLDStgData.Country)
+
+                        const similarDRIDsX = similarDRIDsWT?.filter(item => {
+                            const tradenameWords = item?.TradeName?.split(/\s+|,|\//).map(word => word.trim().toLowerCase());
+                            return wordsToMatch.reduce((acc, word) => acc || tradenameWords.includes(word), false);
+                        })
+
+                        similarDRIDs = [...similarDRIDsX, ...exactTradeNames]
+
                     } else {
                         similarDRIDs = this.state.GOLDStgListData?.filter((item, i) => item.Molecule?.toLowerCase()?.includes(this.state.SelectedGOLDStgData.Molecule?.toLowerCase()) && (item.TradeName === this.state.SelectedGOLDStgData.TradeName || this.state.SelectedGOLDStgData.TradeName?.toLowerCase()?.includes(item.TradeName?.toLowerCase())) && item?.IntegrationStatus !== 'Assigned' && item?.IntegrationStatus !== 'Published')
                     }
