@@ -5376,9 +5376,13 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         else if (DataService.environment === "QA" || DataService.environment === "PROD") {
             PresentationListName = "PresentationList_Prod";
         }
-        const desc = await DataService.fetchAllItemsGenericFilter(PresentationListName, '*', `ProjectTitleId eq '${drid}'`)
+        const Lcs = ['SKU EXIT IN-PROGRESS', 'FULLY EXITED', null];
+        const desc = await DataService.fetchAllItemsGenericFilter(PresentationListName, '*', `ProjectTitleId eq '${drid}'`);
+        const filteredDescMN = desc?.filter(item => [null, undefined, ""]?.indexOf(item.MaterialNumber) === -1);
+        const filteredDescShow = filteredDescMN?.filter(item => item.Show === true)
+        const filteredDescLC = filteredDescShow?.filter(item => Lcs?.indexOf(item?.LifecycleClass) === -1)
 
-        desc?.map((item, i) => mDesc.push(item?.MaterialNumber))
+        filteredDescLC?.map((item, i) => mDesc.push(item?.MaterialNumber))
 
         const rc = await DataService.fetchAllItemsGenericFilter("Z_NPL_SKUDropdownVal", 'Value, KeyValue', `ConfigType eq 'ReasonCode'`)
         const as = await DataService.fetchAllItemsGenericFilter("Z_NPL_SKUDropdownVal", 'Value, KeyValue', `ConfigType eq 'AccStrategy'`)
