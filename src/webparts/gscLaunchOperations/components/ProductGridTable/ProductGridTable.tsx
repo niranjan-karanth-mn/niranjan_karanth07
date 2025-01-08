@@ -5679,7 +5679,6 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
     }
 
     public getAdminDropdownOption = async (value) => {
-        console.log(this.state.SelectedGRPForNewID)
         this.setState({ isLoading: true });
         this.setState({
             MoleculeAPIOptions: [],
@@ -5826,7 +5825,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
 
     public AIActionlink = async (type, e) => {
         // await this.getProposedKeyFromInterface(e?.Molecule, e?.TradeName);
-        // console.log(this.state.SelectedGRPForNewID)
+        console.log(this.state.MoleculeAPIOptions)
 
         await DataService.fetchAllItemsGenericFilter('GOLD-Molecule_To_DR_GRP', '*', `Molecule eq '${e?.Molecule}'`, null).then(res => {
             if (res?.length === 0) {
@@ -5852,6 +5851,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                             this.getAdminDropdownOption(GRPfilteredData[0]?.keyValue);
                         }
                     }
+                } else {
+                    this.setState({SelectedMoleculeForNewIDOps: null, MoleculeAPIOptions: [], LabelNameOptions: []})
                 }
             })
         })
@@ -9715,11 +9716,11 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                                         </Col>
                                                         <Col>
                                                             <Label>Molecule</Label>
-                                                            <Dropdown placeholder="Select" appendTo='self' filter options={this.state.MoleculeAPIOptions} optionLabel='keyValue' optionValue='keyValue' className="w-full md:w-14rem" value={this.state.SelectedMoleculeForNewIDOps} onChange={(e) => this.setState({ SelectedMoleculeForNewIDOps: e.value })} disabled={this.state.SelectedAIMode == 'View' || !this.state.SelectedGRPForNewID} />
+                                                            <Dropdown placeholder="Select" appendTo='self' filter options={this.state.MoleculeAPIOptions} optionLabel='keyValue' optionValue='keyValue' className="w-full md:w-14rem" value={this.state.SelectedMoleculeForNewIDOps} onChange={(e) => this.setState({ SelectedMoleculeForNewIDOps: e.value })} disabled={this.state.SelectedAIMode == 'View'} />
                                                         </Col>
                                                         <Col>
                                                             <Label>Label Name</Label>
-                                                            <Dropdown placeholder="Select" appendTo='self' filter options={this.state.LabelNameOptions} optionLabel='keyValue' optionValue='keyValue' className="w-full md:w-14rem" value={this.state.SelectedLabelForNewIDOps} onChange={(e) => this.setState({ SelectedLabelForNewIDOps: e.value })} disabled={this.state.SelectedAIMode == 'View' || !this.state.SelectedGRPForNewID} />
+                                                            <Dropdown placeholder="Select" appendTo='self' filter options={this.state.LabelNameOptions} optionLabel='keyValue' optionValue='keyValue' className="w-full md:w-14rem" value={this.state.SelectedLabelForNewIDOps} onChange={(e) => this.setState({ SelectedLabelForNewIDOps: e.value })} disabled={this.state.SelectedAIMode == 'View'} />
                                                         </Col>
                                                     </Row>
                                                 </div>
