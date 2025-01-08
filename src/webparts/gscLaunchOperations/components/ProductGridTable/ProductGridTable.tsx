@@ -4265,7 +4265,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                 PresentationListName = "PresentationList";
                 ProductListName = "ProductList";
                 presentationIntListDataWithFilter?.forEach(async item => {
-                    console.log(presentationIntListDataWithFilter, 'presentationIntListDataWithFilter')
+                    // console.log(presentationIntListDataWithFilter, 'presentationIntListDataWithFilter')
                     await DataService.addItemsToList(PresentationListName, { ProjectTitleId: this.state.pdlResponse?.data?.ID, ProjectTitle_x003a_IDId: this.state.pdlResponse?.data?.ID, MaterialNumber: item?.MaterialNumber, MaterialDescription: item?.MaterialDescription, ProductConfiguration: item?.ProductConfiguration, DosageCategory: item?.DosageCategory, DosageForm: item?.DosageForm, PackCount: item?.PackCount, PackType1: item?.PackType1, PackTypeVariant: item?.PackTypeVariant, RecordType: 'Master Data', PackSizes: item?.PackSizes, PackShipper: item?.PackShipper, MOQ: item?.MOQ, IntegrationFlag: item?.IntegrationFlag, ParentID: 1, GCRSLocation: item?.GCRSLocation, FlagForArtwork: item?.FlagForArtwork, SEWorkflowStatus: item?.SEWorkflowStatus, GCRSWorkflowStatus: item?.GCRSWorkflowStatus, FillQuantity: item?.FillQuantity, FillQuantityUOM: item?.FillQuantityUOM, InnerNoOfContainers: item?.InnerNoOfContainers, OuterNoOfContainers: item?.OuterNoOfContainers, LifecycleClass: item?.LifecycleClass, GlobalID: item?.GlobalID })
                 });
                 filteredProductListData?.forEach(async item => {
@@ -4273,7 +4273,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                 })
             }
             else if (DataService.environment === "QA" || DataService.environment === "PROD") {
-                console.log(presentationIntListDataWithFilter, 'presentationIntListDataWithFilter')
+                // console.log(presentationIntListDataWithFilter, 'presentationIntListDataWithFilter')
                 PresentationListName = "PresentationList_Prod";
                 ProductListName = "ProductList_Prod";
                 presentationIntListDataWithFilter?.forEach(async item => {
@@ -4435,6 +4435,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                     
                     if (DataService.environment === "DEV") {
                         PresentationListName = "PresentationList";
+                        ProductListName = "ProductList";
                         presentationIntListDataWithFilter?.forEach(async item => {
                             // await DataService.addItemsToList('PresentationList', { MaterialNumber: item?.MaterialNumber })
                             await DataService.addItemsToList(PresentationListName, { ProjectTitleId: this.state.pdlResponse?.data?.ID, ProjectTitle_x003a_IDId: this.state.pdlResponse?.data?.ID, MaterialNumber: item?.MaterialNumber, MaterialDescription: item?.MaterialDescription, ProductConfiguration: item?.ProductConfiguration, DosageCategory: item?.DosageCategory, DosageForm: item?.DosageForm, PackCount: item?.PackCount, PackType1: item?.PackType1, PackTypeVariant: item?.PackTypeVariant, RecordType: 'Master Data', PackSizes: item?.PackSizes, PackShipper: item?.PackShipper, MOQ: item?.MOQ, IntegrationFlag: item?.IntegrationFlag, ParentID: 1, GCRSLocation: item?.GCRSLocation, FlagForArtwork: item?.FlagForArtwork, SEWorkflowStatus: item?.SEWorkflowStatus, GCRSWorkflowStatus: item?.GCRSWorkflowStatus, FillQuantity: item?.FillQuantity, FillQuantityUOM: item?.FillQuantityUOM, InnerNoOfContainers: item?.InnerNoOfContainers, OuterNoOfContainers: item?.OuterNoOfContainers, LifecycleClass: item?.LifecycleClass, GlobalID: item?.GlobalID })
@@ -4446,6 +4447,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                     }
                     else if (DataService.environment === "QA" || DataService.environment === "PROD") {
                         PresentationListName = "PresentationList_Prod";
+                        ProductListName = "ProductList_Prod";
                         presentationIntListDataWithFilter?.forEach(async item => {
                             // await DataService.addItemsToList('PresentationList', { MaterialNumber: item?.MaterialNumber })
                             await DataService.addItemsToList(PresentationListName, { ProjectTitle_x003a_ProjectTitleId: this.state.pdlResponse?.data?.ID, ProjectTitleId: this.state.pdlResponse?.data?.ID, MaterialNumber: item?.MaterialNumber, MaterialDescription: item?.MaterialDescription, ProductConfiguration: item?.ProductConfiguration, DosageCategory: item?.DosageCategory, DosageForm: item?.DosageForm, PackCount: item?.PackCount, PackType1: item?.PackType1, PackTypeVariant: item?.PackTypeVariant, RecordType: 'Master Data', PackSizes: item?.PackSizes, PackShipper: item?.PackShipper, MOQ: item?.MOQ, IntegrationFlag: item?.IntegrationFlag, ParentID: 1, GCRSLocation: item?.GCRSLocation, FlagForArtwork: item?.FlagForArtwork, SEWorkflowStatus: item?.SEWorkflowStatus, GCRSWorkflowStatus: item?.GCRSWorkflowStatus, FillQuantity: item?.FillQuantity, FillQuantityUOM: item?.FillQuantityUOM, InnerNoOfContainers: item?.InnerNoOfContainers, OuterNoOfContainers: item?.OuterNoOfContainers, LifecycleClass: item?.LifecycleClass, GlobalID: item?.GlobalID }).then(res => console.log('Success!')).catch(e => console.log('Error fetching', e))
