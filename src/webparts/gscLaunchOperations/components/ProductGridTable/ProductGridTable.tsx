@@ -416,12 +416,13 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
 
             if (DataService.environment === "DEV") {
                 this.props.headerText('Commercial/GOLD Projects');
-                this.setState({ DRURl: 'https://pfizer.sharepoint.com/sites/NPLTestSite/SitePages/CreateDR.aspx?mode=Edit&ProjectID=' });
+                this.setState({ DRURl: 'https://pfizer.sharepoint.com/sites/NPLTestSite/SitePages/CreateDR.aspx?mode=View&ProjectID=' });
             } else if (DataService.environment === "QA") {
                 this.props.headerText('Commercial/GOLD Projects - DEMO');
-                this.setState({ DRURl: 'https://pfizer.sharepoint.com/sites/NPLQA/SitePages/CreateDRProd.aspx?mode=Edit&ProjectID=' });
+                this.setState({ DRURl: 'https://pfizer.sharepoint.com/sites/NPLQA/SitePages/CreateDRProd.aspx?mode=View&ProjectID=' });
             } else {
                 this.props.headerText('Commercial/GOLD Projects');
+                this.setState({ DRURl: 'https://pfizer.sharepoint.com/sites/NPLDev/SitePages/CreateDRProd.aspx?mode=View&ProjectID=' });
             }
             // this.setState({ isLoading: true });
             await this.getGOLDConfig();
@@ -5593,9 +5594,9 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         }
     }
     public getBUAndSubBuOptions = async () => {
-        if (DataService.environment == 'DEV') {
+        if (DataService.environment == 'QA') {
             const MasterData = DataService.fetchAllDRListItemsWithFilters('MasterDataNew', 'Title,TypeValue,TypeCode,TypeId/Title,ParentCategoryId,IsActive,Id',
-                `TypeId eq '3' or TypeId eq '26' `, 'TypeId', 'TypeValue asc,TypeValue')
+                `TypeId eq '4' or TypeId eq '26' `, 'TypeId', 'TypeValue asc,TypeValue')
             Promise.all([MasterData]).then((responses) => {
                 let MasterDataNewlst = responses[0];
                 let SubBU = MasterDataNewlst.filter(a => a.TypeId.Title == 'Sub Business Unit' && a.IsActive == true);
@@ -5615,7 +5616,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             });
         } else {
             const MasterData = DataService.fetchAllDRListItemsWithFilters('MasterDataNew', 'Title,TypeValue,TypeCode,TypeId/Title,ParentCategoryId,IsActive,Id',
-                `TypeId eq '26' or TypeId eq '4' `, 'TypeId', 'TypeValue asc,TypeValue')
+                `TypeId eq '26' or TypeId eq '3' `, 'TypeId', 'TypeValue asc,TypeValue')
             Promise.all([MasterData]).then((responses) => {
                 let MasterDataNewlst = responses[0];
                 let SubBU = MasterDataNewlst.filter(a => a.TypeId.Title == 'Sub Business Unit' && a.IsActive == true);
@@ -5632,7 +5633,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                     keyValue: `${item?.TypeCode}->${item?.TypeValue}`
                 }));
                 this.setState({ SubBUOptions: SubBUArray });
-                console.log("SubBUArray", SubBUArray);
+              //  console.log("SubBUArray", SubBUArray);
             });
         }
 
@@ -5678,6 +5679,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
     }
 
     public getAdminDropdownOption = async (value) => {
+        console.log(this.state.SelectedGRPForNewID)
         this.setState({ isLoading: true });
         this.setState({
             MoleculeAPIOptions: [],
@@ -5824,6 +5826,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
 
     public AIActionlink = async (type, e) => {
         // await this.getProposedKeyFromInterface(e?.Molecule, e?.TradeName);
+        // console.log(this.state.SelectedGRPForNewID)
 
         await DataService.fetchAllItemsGenericFilter('GOLD-Molecule_To_DR_GRP', '*', `Molecule eq '${e?.Molecule}'`, null).then(res => {
             if (res?.length === 0) {
@@ -9712,11 +9715,11 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                                         </Col>
                                                         <Col>
                                                             <Label>Molecule</Label>
-                                                            <Dropdown placeholder="Select" appendTo='self' filter options={this.state.MoleculeAPIOptions} optionLabel='keyValue' optionValue='keyValue' className="w-full md:w-14rem" value={this.state.SelectedMoleculeForNewIDOps} onChange={(e) => this.setState({ SelectedMoleculeForNewIDOps: e.value })} disabled={this.state.SelectedAIMode == 'View'} />
+                                                            <Dropdown placeholder="Select" appendTo='self' filter options={this.state.MoleculeAPIOptions} optionLabel='keyValue' optionValue='keyValue' className="w-full md:w-14rem" value={this.state.SelectedMoleculeForNewIDOps} onChange={(e) => this.setState({ SelectedMoleculeForNewIDOps: e.value })} disabled={this.state.SelectedAIMode == 'View' || !this.state.SelectedGRPForNewID} />
                                                         </Col>
                                                         <Col>
                                                             <Label>Label Name</Label>
-                                                            <Dropdown placeholder="Select" appendTo='self' filter options={this.state.LabelNameOptions} optionLabel='keyValue' optionValue='keyValue' className="w-full md:w-14rem" value={this.state.SelectedLabelForNewIDOps} onChange={(e) => this.setState({ SelectedLabelForNewIDOps: e.value })} disabled={this.state.SelectedAIMode == 'View'} />
+                                                            <Dropdown placeholder="Select" appendTo='self' filter options={this.state.LabelNameOptions} optionLabel='keyValue' optionValue='keyValue' className="w-full md:w-14rem" value={this.state.SelectedLabelForNewIDOps} onChange={(e) => this.setState({ SelectedLabelForNewIDOps: e.value })} disabled={this.state.SelectedAIMode == 'View' || !this.state.SelectedGRPForNewID} />
                                                         </Col>
                                                     </Row>
                                                 </div>
