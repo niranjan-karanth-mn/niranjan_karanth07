@@ -4213,7 +4213,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             const moleculeToMolecule = moleculeToMoleculeData?.filter(item => item?.GOLDMolecule?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
             const moleculeToMoleculeWithEmpty = moleculeToMolecule?.filter(item => !item?.DR_MoleculeAPI || !item?.MoleculeKey)
             const moleculeToLabelData = await DataService.fetchAllItemsGenericFilter('GOLD-TradeName_To_DR_Label', '*', `isActive eq 1`, null);
-            const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
+            const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.TradeName?.toLowerCase())
             const moleculeToLabelWithEmpty = moleculeToLabel?.filter(item => !item?.DRLabelText || !item?.DRLabelKey)
 
             const goldItemsX = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", "*", `Molecule eq '${this.state.SelectedGOLDStgData?.Molecule}' and TradeName eq '${this.state.SelectedGOLDStgData?.TradeName}' and IsActive eq 1 and IsPlanExist ne 'Yes' and IsMerged ne 1`, null)
@@ -4239,12 +4239,14 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                     await DataService.updateItemInList('GOLD-Molecule_TO_DR_MoleculeAPI', moleculeToMoleculeWithEmpty?.[0]?.ID, { MoleculeKey: molKey, DR_MoleculeAPI: molVal, isConfirmed: true })
                 }
                 if (moleculeToLabel?.length === 0) {
-                    await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.Molecule, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                    await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
                 } else {
-                    await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToDRP?.[0]?.ID, { TradeName: this.state.SelectedGOLDStgData.Molecule, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
-                }
-                if (moleculeToLabelWithEmpty?.length > 0) {
-                    await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                    if (moleculeToLabelWithEmpty?.length > 0) {
+                        await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                    } else {
+                        await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, {isConfirmed: true })
+                    }
+                    // await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToDRP?.[0]?.ID, { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
                 }
             }
 
@@ -4385,7 +4387,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                     const moleculeToMolecule = moleculeToMoleculeData?.filter(item => item?.GOLDMolecule?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
                     const moleculeToMoleculeWithEmpty = moleculeToMolecule?.filter(item => !item?.DR_MoleculeAPI || !item?.MoleculeKey)
                     const moleculeToLabelData = await DataService.fetchAllItemsGenericFilter('GOLD-TradeName_To_DR_Label', '*', `isActive eq 1`, null);
-                    const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
+                    const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.TradeName?.toLowerCase())
                     const moleculeToLabelWithEmpty = moleculeToLabel?.filter(item => !item?.DRLabelText || !item?.DRLabelKey)
         
                     const goldItemsX = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", "*", `Molecule eq '${this.state.SelectedGOLDStgData?.Molecule}' and TradeName eq '${this.state.SelectedGOLDStgData?.TradeName}' and IsActive eq 1 and IsPlanExist ne 'Yes' and IsMerged ne 1`, null)
@@ -4411,12 +4413,14 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                             await DataService.updateItemInList('GOLD-Molecule_TO_DR_MoleculeAPI', moleculeToMoleculeWithEmpty?.[0]?.ID, { MoleculeKey: molKey, DR_MoleculeAPI: molVal, isConfirmed: true })
                         }
                         if (moleculeToLabel?.length === 0) {
-                            await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.Molecule, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                            await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
                         } else {
-                            await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToDRP?.[0]?.ID, { TradeName: this.state.SelectedGOLDStgData.Molecule, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
-                        }
-                        if (moleculeToLabelWithEmpty?.length > 0) {
-                            await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                            // await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToDRP?.[0]?.ID, { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                            if (moleculeToLabelWithEmpty?.length > 0) {
+                                await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                            } else {
+                                await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, { isConfirmed: true })
+                            }
                         }
                     }
         
@@ -4831,7 +4835,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         const moleculeToMolecule = moleculeToMoleculeData?.filter(item => item?.GOLDMolecule?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
         const moleculeToMoleculeWithEmpty = moleculeToMolecule?.filter(item => !item?.DR_MoleculeAPI || !item?.MoleculeKey)
         const moleculeToLabelData = await DataService.fetchAllItemsGenericFilter('GOLD-TradeName_To_DR_Label', '*', `isActive eq 1`, null);
-        const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
+        const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.TradeName?.toLowerCase())
         const moleculeToLabelWithEmpty = moleculeToLabel?.filter(item => !item?.DRLabelText || !item?.DRLabelKey)
 
         if (goldItems?.length > 0) {
@@ -4853,12 +4857,14 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                 await DataService.updateItemInList('GOLD-Molecule_TO_DR_MoleculeAPI', moleculeToMoleculeWithEmpty?.[0]?.ID, { MoleculeKey: molKey, DR_MoleculeAPI: molVal, isConfirmed: true })
             }
             if (moleculeToLabel?.length === 0) {
-                await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.Molecule, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
             } else {
-                await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, { TradeName: this.state.SelectedGOLDStgData.Molecule, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
-            }
-            if (moleculeToLabelWithEmpty?.length > 0) {
-                await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                // await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                if (moleculeToLabelWithEmpty?.length > 0) {
+                    await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                } else {
+                    await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, { isConfirmed: true })
+                }
             }
             this.setState({ selectedProjectDetails: drData, showLinkAndCreateIDPop: true, SelectedGRPForNewID: '', SelectedMoleculeForNewID: null, SelectedLabelForNewID: null, isLoading: false });
         }
@@ -9126,6 +9132,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                             <Column cellRender={e => <div>{e?.value ? format(new Date(e?.value), 'MMM-dd-yyyy') : ''}</div>} dataField="ReimbursementGeneratedX" width={200} caption="Reimbursement Generated"></Column>
                                             <Column cellRender={e => <div>{e?.value ? format(new Date(e?.value), 'MMM-dd-yyyy') : ''}</div>} dataField="ReimbursementBaseX" width={200} caption="Reimbursement Base"></Column>
                                             <Column dataField='GOLD_DLPPMappedX' caption='GOLD DLPP Mapped' width={120} />
+                                            <Column dataField='PlanOwner' caption='Plan Owner' width={200} />
 
                                             <Pager showInfo={true} infoText="Total Rows: {2}" displayMode={'full'} visible={true} allowedPageSizes={pageSizes} showPageSizeSelector='true' />
                                             <Paging enabled={true} defaultPageSize={10} />
