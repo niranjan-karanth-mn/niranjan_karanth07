@@ -56,14 +56,15 @@ import { DataService } from '../Shared/DataService';
 //Arpita
 import IPORTEdit from '../IPORTEdit/IPORTEdit';
 import LightSpeedIndicator from '../../../../../src/webparts/assets/images/LightSpeedIndicator.png';
-import { RadioButton } from 'primereact/radiobutton';
+// import { RadioButton } from 'primereact/radiobutton';
 import { Label } from 'office-ui-fabric-react';
 import { MultiSelect } from 'primereact/multiselect';
 import { PeoplePicker, PrincipalType } from "@pnp/spfx-controls-react/lib/PeoplePicker";
 import deleteIcon from '../../../../../src/webparts/assets/images/delete.png';
-import { Switch, TextField } from '@material-ui/core';
+import { Radio, Switch, TextField } from '@material-ui/core';
 import { uniqBy } from '@microsoft/sp-lodash-subset';
 import DataRepositoryTab from '../EditPlan/DataRepository/DataRepositoryTab';
+import { sp } from '@pnp/sp/presets/all';
 //import { sp } from "@pnp/sp/presets/all";
 
 
@@ -413,7 +414,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         try {
             this.setState({ isLoading: true });
             await this.getTabNames();
-
+            const user = await sp.web.siteUsers.getByEmail("arpita.kulkarni@pfizer.com")?.get();
+            console.log("User",user);
             if (DataService.environment === "DEV") {
                 this.props.headerText('Commercial/GOLD Projects');
                 this.setState({ DRURl: 'https://pfizer.sharepoint.com/sites/NPLTestSite/SitePages/CreateDR.aspx?mode=View&ProjectID=' });
@@ -1890,7 +1892,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             .then(async (responses) => {
                 // let result = responses.length > 0 ? responses[0][0] : responses;
                 //  console.log("Res",responses[0]);
-                const drData = responses[0]?.map(res => ({
+                const filteredDRStatus = responses[0]?.filter(item => item?.DRStatus === true);
+                const drData = filteredDRStatus?.map(res => ({
                     DRID: res?.ID,
                     ProjectTitle: res?.ProjectTitle ? res?.ProjectTitle : this.state.pTitleForDR,
                     MoleculeName: res?.MoleculeName,
@@ -4008,11 +4011,15 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             <>
                 <div className={' row col-xs-12'} style={{ marginLeft: '15px' }}>
                     <div className="flex align-items-center">
-                        <RadioButton inputId="ingredient2" name="SelectionRecord1" id={rowData.ProjectID}
+                        {/* <RadioButton inputId="ingredient2" name="SelectionRecord1" id={rowData.ProjectID}
                             disabled={(rowData.DRID != null && rowData.DRID != "" && rowData.IntegrationStatus == "Published")}
                             value={rowData.ProjectID} onChange={(e) => this.onRadioChange(e, rowData)}
                             checked={this.state.selectedPrimaryPlaniswareRec && this.state.selectedPrimaryPlaniswareRec.ProjectID === rowData.ProjectID}
-                        />
+                        /> */}
+                        <Radio name="SelectionRecord1" id={rowData.ProjectID}
+                            disabled={(rowData.DRID != null && rowData.DRID != "" && rowData.IntegrationStatus == "Published")}
+                            value={rowData.ProjectID} onChange={(e) => this.onRadioChange(e, rowData)}
+                            checked={this.state.selectedPrimaryPlaniswareRec && this.state.selectedPrimaryPlaniswareRec.ProjectID === rowData.ProjectID} color='primary'/>
                     </div>
                 </div>
             </>
@@ -4052,10 +4059,17 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             <>
                 <div className={' row col-xs-12'} style={{ marginLeft: '15px' }}>
                     <div className="flex align-items-center">
-                        <RadioButton name="DRData"
+                        {/* <RadioButton name="DRData"
                             disabled={this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed' || this.state.linkOrCreateDR === 'createDR'}
                             value={rowData.DRID} onChange={(e) => this.onDRhandleChange(e, rowData)}
-                            checked={(this.state.selectedDRID == rowData.DRID || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned') || (this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed' && this.state.SelectedGOLDStgData.ProcessedDRID === rowData.DRID?.toString()) || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'}
+                            checked={(this.state.selectedDRID == rowData.DRID || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned') || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'}
+                        /> */}
+                        <Radio
+                            name="DRData"
+                            disabled={this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed' || this.state.linkOrCreateDR === 'createDR'}
+                            value={rowData.DRID} onChange={(e) => this.onDRhandleChange(e, rowData)}
+                            checked={(this.state.selectedDRID == rowData.DRID || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned') || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'}
+                            color='primary'
                         />
                     </div>
                 </div>
@@ -4067,11 +4081,15 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             <>
                 <div className={' row col-xs-12'} style={{ marginLeft: '15px' }}>
                     <div className="flex align-items-center">
-                        <RadioButton name="DRPlan"
+                        {/* <RadioButton name="DRPlan"
                             value={rowData.DRID} onChange={(e) => this.onSelectedPlanHandle(e, rowData)}
                             checked={this.state.SelectedPlanId === rowData.ID}
                             disabled={this.state.SelectedGOLDTabMode === 'View'}
-                        />
+                        /> */}
+                        <Radio name="DRPlan"
+                            value={rowData.DRID} onChange={(e) => this.onSelectedPlanHandle(e, rowData)}
+                            checked={this.state.SelectedPlanId === rowData.ID}
+                            disabled={this.state.SelectedGOLDTabMode === 'View'} color='primary'/>
                     </div>
                 </div>
             </>
@@ -4213,21 +4231,16 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             const moleculeToMolecule = moleculeToMoleculeData?.filter(item => item?.GOLDMolecule?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
             const moleculeToMoleculeWithEmpty = moleculeToMolecule?.filter(item => !item?.DR_MoleculeAPI || !item?.MoleculeKey)
             const moleculeToLabelData = await DataService.fetchAllItemsGenericFilter('GOLD-TradeName_To_DR_Label', '*', `isActive eq 1`, null);
+            const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.TradeName?.toLowerCase())
+            const moleculeToLabelWithEmpty = moleculeToLabel?.filter(item => !item?.DRLabelText || !item?.DRLabelKey)
 
             const goldItemsX = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", "*", `Molecule eq '${this.state.SelectedGOLDStgData?.Molecule}' and TradeName eq '${this.state.SelectedGOLDStgData?.TradeName}' and IsActive eq 1 and IsPlanExist ne 'Yes' and IsMerged ne 1`, null)
 
             const goldItems = goldItemsX?.filter(item => item.IntegrationStatus !== 'Assigned' || item.IntegrationStatus !== 'Published')
 
-            if(this.state.SelectedGOLDStgData.TradeName) {
-                await this.updateTradenameInList(goldItems, moleculeToLabelData, labKey, labVal);
-            }
-
-
             if (goldItems?.length > 0) {
                 if (moleculeToDRP?.length === 0) {
                     await DataService.addItemsToList('GOLD-Molecule_To_DR_GRP', { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, Molecule: this.state.SelectedGOLDStgData.Molecule, GRPKey: grpKey, GRPValue: grpVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
-                } else {
-                    await DataService.updateItemInList('GOLD-Molecule_To_DR_GRP', moleculeToDRP?.[0]?.ID, { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, Molecule: this.state.SelectedGOLDStgData.Molecule, GRPKey: grpKey, GRPValue: grpVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
                 }
                 if (moleculeToDRPWithEmpty?.length > 0) {
                     await DataService.updateItemInList('GOLD-Molecule_To_DR_GRP', moleculeToDRP?.[0]?.ID, { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, Molecule: this.state.SelectedGOLDStgData.Molecule, GRPKey: grpKey, GRPValue: grpVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
@@ -4235,11 +4248,21 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
 
                 if (moleculeToMolecule?.length === 0) {
                     await DataService.addItemsToList('GOLD-Molecule_TO_DR_MoleculeAPI', { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, GOLDMolecule: this.state.SelectedGOLDStgData.Molecule, MoleculeKey: molKey, DR_MoleculeAPI: molVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
-                } else {
-                    await DataService.updateItemInList('GOLD-Molecule_TO_DR_MoleculeAPI', moleculeToDRP?.[0]?.ID, { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, GOLDMolecule: this.state.SelectedGOLDStgData.Molecule, MoleculeKey: molKey, DR_MoleculeAPI: molVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
                 }
                 if (moleculeToMoleculeWithEmpty?.length > 0) {
                     await DataService.updateItemInList('GOLD-Molecule_TO_DR_MoleculeAPI', moleculeToMoleculeWithEmpty?.[0]?.ID, { MoleculeKey: molKey, DR_MoleculeAPI: molVal, isConfirmed: true })
+                }
+                if(this.state.SelectedGOLDStgData.TradeName) {
+                    if (moleculeToLabel?.length === 0) {
+                        await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                    } else {
+                        if (moleculeToLabelWithEmpty?.length > 0) {
+                            await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                        } else {
+                            await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, {isConfirmed: true })
+                        }
+                        // await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToDRP?.[0]?.ID, { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                    }
                 }
             }
 
@@ -4380,20 +4403,16 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                     const moleculeToMolecule = moleculeToMoleculeData?.filter(item => item?.GOLDMolecule?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
                     const moleculeToMoleculeWithEmpty = moleculeToMolecule?.filter(item => !item?.DR_MoleculeAPI || !item?.MoleculeKey)
                     const moleculeToLabelData = await DataService.fetchAllItemsGenericFilter('GOLD-TradeName_To_DR_Label', '*', `isActive eq 1`, null);
+                    const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.TradeName?.toLowerCase())
+                    const moleculeToLabelWithEmpty = moleculeToLabel?.filter(item => !item?.DRLabelText || !item?.DRLabelKey)
         
                     const goldItemsX = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", "*", `Molecule eq '${this.state.SelectedGOLDStgData?.Molecule}' and TradeName eq '${this.state.SelectedGOLDStgData?.TradeName}' and IsActive eq 1 and IsPlanExist ne 'Yes' and IsMerged ne 1`, null)
         
-                    const goldItems = goldItemsX?.filter(item => item.IntegrationStatus !== 'Assigned' || item.IntegrationStatus !== 'Published');
-
-                    if(this.state.SelectedGOLDStgData.TradeName) {
-                        await this.updateTradenameInList(goldItems, moleculeToLabelData, labKey, labVal);
-                    }
+                    const goldItems = goldItemsX?.filter(item => item.IntegrationStatus !== 'Assigned' || item.IntegrationStatus !== 'Published')
         
                     if (goldItems?.length > 0) {
                         if (moleculeToDRP?.length === 0) {
                             await DataService.addItemsToList('GOLD-Molecule_To_DR_GRP', { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, Molecule: this.state.SelectedGOLDStgData.Molecule, GRPKey: grpKey, GRPValue: grpVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
-                        } else {
-                            await DataService.updateItemInList('GOLD-Molecule_To_DR_GRP', moleculeToDRP?.[0]?.ID, { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, Molecule: this.state.SelectedGOLDStgData.Molecule, GRPKey: grpKey, GRPValue: grpVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
                         }
                         if (moleculeToDRPWithEmpty?.length > 0) {
                             await DataService.updateItemInList('GOLD-Molecule_To_DR_GRP', moleculeToDRP?.[0]?.ID, { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, Molecule: this.state.SelectedGOLDStgData.Molecule, GRPKey: grpKey, GRPValue: grpVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
@@ -4401,12 +4420,21 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         
                         if (moleculeToMolecule?.length === 0) {
                             await DataService.addItemsToList('GOLD-Molecule_TO_DR_MoleculeAPI', { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, GOLDMolecule: this.state.SelectedGOLDStgData.Molecule, MoleculeKey: molKey, DR_MoleculeAPI: molVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
-                        } else {
-                            await DataService.updateItemInList('GOLD-Molecule_TO_DR_MoleculeAPI', moleculeToDRP?.[0]?.ID, { FK_Molecule_BK: goldItems?.[0]?.FK_Molecule_BK, GOLDMolecule: this.state.SelectedGOLDStgData.Molecule, MoleculeKey: molKey, DR_MoleculeAPI: molVal, FK_Molecule_ID: goldItems?.[0]?.FK_Molecule_ID, isConfirmed: true })
                         }
                         if (moleculeToMoleculeWithEmpty?.length > 0) {
                             await DataService.updateItemInList('GOLD-Molecule_TO_DR_MoleculeAPI', moleculeToMoleculeWithEmpty?.[0]?.ID, { MoleculeKey: molKey, DR_MoleculeAPI: molVal, isConfirmed: true })
                         }
+                        if(this.state.SelectedGOLDStgData.TradeName) {
+                        if (moleculeToLabel?.length === 0) {
+                            await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                        } else {
+                            if (moleculeToLabelWithEmpty?.length > 0) {
+                                await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                            } else {
+                                await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, { isConfirmed: true })
+                            }
+                        }
+                    }
                     }
         
                     const globalIDs = [];
@@ -4623,17 +4651,42 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
 
     public updateIDPrimary = async () => {
         if (this.state.SelectedRadioOption === "GTEL") {
-            const ids = this.state.planExistPopData?.map(item => item?.ID)
-            ids?.forEach(async id => {
-                await DataService.updateItemInList('DLPPList', id, { Commercial_ID_Primary: this.state.SelectedGOLDStgData?.GOLD_IDPrimary })
-            });
-            await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', this.state.SelectedGOLDStgData?.Id, { IntegrationStatus: "Processed", ProcessedDRID: this.state.selectedDRID?.toString(), MappingConfirmed: true });
-
+            let projectDetailsListName = "";
+            if (DataService.environment === "DEV") {
+                projectDetailsListName = "ProjectDetailsList";
+            }
+            else if (DataService.environment === "QA" || DataService.environment === "PROD") {
+                projectDetailsListName = "ProjectDetailsList_Prod";
+            }
+            this.checkAllIndicationExists(this.state.SelectedGOLDStgData.Indication?.split(';')).then(async res => {
+                if(res){
+                await this.CheckInIndicationMaster(this.state.SelectedGOLDStgData.Indication?.split(';'), null);
+                const ids = this.state.planExistPopData?.map(item => item?.ID)
+                ids?.forEach(async id => {
+                    await DataService.updateItemInList('DLPPList', id, { Commercial_ID_Primary: this.state.SelectedGOLDStgData?.GOLD_IDPrimary })
+                });
+                await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', this.state.SelectedGOLDStgData?.Id, { IntegrationStatus: "Processed", MappedDRID: this.state.selectedDRID?.toString(), MappingConfirmed: true });
+                await this.getGOLDStgListData();
+               let allIndicationsForPList = this.state.SelectedGOLDStgData.Indication?.split(';');
+                const inds = this.removeDup(allIndicationsForPList);
+                const projectDetails = await DataService.fetchAllItemsGenericFilter(projectDetailsListName, "*", `ID eq '${this.state.selectedDRID.toString()}'`, null)
+                        if (projectDetails?.length > 0) {
+                            let merged;
+                            if (projectDetails[0]?.Indication) {
+                                const indicationArray = projectDetails[0]?.Indication?.split(';')
+                                merged = [...inds, ...indicationArray]
+                            } else {
+                                merged = [...inds]
+                            }
+                            const uniqueInds = [...new Set(merged)]
+                            await DataService.updateItemInList(projectDetailsListName, this.state.selectedDRID.toString(), { Indication: uniqueInds?.join(';') });
+                        }
+                this.setState({ planExistPop: false, showAIAssestPopup: false });
+            }
+            })
         } else {
             // Do nothing
         }
-        this.setState({ planExistPop: false, showAIAssestPopup: false });
-        this.getGOLDStgListData();
     }
 
     public beforeConfirmPop = async () => {
@@ -4686,44 +4739,6 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             }
         })
     }
-
-    public updateTradenameInList = async (goldItems, moleculeToLabelData, labKey, labVal) => {
-            if(this.state.SelectedGOLDStgData?.TradeName?.split(';')?.length === 1) {
-                if (goldItems?.length > 0) {
-                const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.trim()?.toLowerCase() === this.state.SelectedGOLDStgData.TradeName?.trim()?.toLowerCase())
-                // const moleculeToLabelWithEmpty = moleculeToLabel?.filter(item => !item?.DRLabelText || !item?.DRLabelKey);
-                
-                    if (moleculeToLabel?.length === 0) {
-                        await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.TradeName?.trim(), DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
-                    } else {
-                        // if (moleculeToLabelWithEmpty?.length > 0) {
-                            await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
-                        // } else {
-                        //     await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, {isConfirmed: true })
-                        // }
-                    }
-                }
-            } else {
-                if (goldItems?.length > 0) {
-                    const tradenames = this.state.SelectedGOLDStgData?.TradeName?.split(';');
-                    tradenames?.forEach (async tradename => {
-                        const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.trim()?.toLowerCase() === tradename?.trim()?.toLowerCase())
-                        // const moleculeToLabelWithEmpty = moleculeToLabel?.filter(item => !item?.DRLabelText || !item?.DRLabelKey);
-    
-                            if (moleculeToLabel?.length === 0) {
-                                await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: tradename?.trim(), DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
-                            } else {
-                                // if (moleculeToLabelWithEmpty?.length > 0) {
-                                    await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
-                                // } else {
-                                //     await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, {isConfirmed: true })
-                                // }
-                            }
-                    })
-                }
-            }
-    }
-
     public onConfirmForProposedDRID = async () => {
         const grpKey = this.state.SelectedGRPForNewID?.split('->')[0]
         const grpVal = this.state.SelectedGRPForNewID?.split('->')[1]
@@ -4742,7 +4757,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             projectDetailsListName = "ProjectDetailsList_Prod";
         }
         this.setState({ isLoading: true })
-        const ProjectDetailsData0 = await DataService.fetchAllItemsGenericFilter(projectDetailsListName, '*', `IsActive eq 1`, null);
+        const ProjectDetailsData0 = await DataService.fetchAllItemsGenericFilter(projectDetailsListName, '*', `IsActive eq 1 and DRStatus eq 1`, null);
 
         const ProjectDetailsData = ProjectDetailsData0?.filter(item => item?.ProposedGRP?.split('->')[0] === grpKey && item?.MoleculeName?.split('->')[0] === molKey && item?.TradeName?.split('->')[0] === labKey)
         // console.log(ProjectDetailsDataFiltered)
@@ -4858,10 +4873,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         const moleculeToMolecule = moleculeToMoleculeData?.filter(item => item?.GOLDMolecule?.toLowerCase() === this.state.SelectedGOLDStgData.Molecule?.toLowerCase())
         const moleculeToMoleculeWithEmpty = moleculeToMolecule?.filter(item => !item?.DR_MoleculeAPI || !item?.MoleculeKey)
         const moleculeToLabelData = await DataService.fetchAllItemsGenericFilter('GOLD-TradeName_To_DR_Label', '*', `isActive eq 1`, null);
-
-        if(this.state.SelectedGOLDStgData.TradeName) {
-            await this.updateTradenameInList(goldItems, moleculeToLabelData, labKey, labVal);
-        }
+        const moleculeToLabel = moleculeToLabelData?.filter(item => item?.TradeName?.toLowerCase() === this.state.SelectedGOLDStgData.TradeName?.toLowerCase())
+        const moleculeToLabelWithEmpty = moleculeToLabel?.filter(item => !item?.DRLabelText || !item?.DRLabelKey)
 
         if (goldItems?.length > 0) {
             if (moleculeToDRP?.length === 0) {
@@ -4880,6 +4893,17 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             }
             if (moleculeToMoleculeWithEmpty?.length > 0) {
                 await DataService.updateItemInList('GOLD-Molecule_TO_DR_MoleculeAPI', moleculeToMoleculeWithEmpty?.[0]?.ID, { MoleculeKey: molKey, DR_MoleculeAPI: molVal, isConfirmed: true })
+            }
+            if(this.state.SelectedGOLDStgData.TradeName) {
+                if (moleculeToLabel?.length === 0) {
+                    await DataService.addItemsToList('GOLD-TradeName_To_DR_Label', { TradeName: this.state.SelectedGOLDStgData.TradeName, DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                } else {
+                    if (moleculeToLabelWithEmpty?.length > 0) {
+                        await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabelWithEmpty?.[0]?.ID, { DRLabelText: labVal, DRLabelKey: labKey, isConfirmed: true })
+                    } else {
+                        await DataService.updateItemInList('GOLD-TradeName_To_DR_Label', moleculeToLabel?.[0]?.ID, { isConfirmed: true })
+                    }
+                }
             }
             this.setState({ selectedProjectDetails: drData, showLinkAndCreateIDPop: true, SelectedGRPForNewID: '', SelectedMoleculeForNewID: null, SelectedLabelForNewID: null, isLoading: false });
         }
@@ -5149,7 +5173,6 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         }
     }
     public confirmToCreateDR = async () => {
-        console.log(this.state.SelectedGOLDStgData?.TradeName?.split(';')?.length)
         let projectDetailsListName = "";
         if (DataService.environment === "DEV") {
             projectDetailsListName = "ProjectDetailsList";
@@ -5583,6 +5606,26 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             </div>
         )
     }
+  
+   // public renderPlanOwner = async (cellData) => {
+        // try {
+        //     if (cellData) {
+        //         const user = await sp.web.siteUsers.getByEmail(cellData)?.get().then((data) => {
+        //             console.log("data", data, user);
+        //             return (
+        //                 <span>
+        //                     {/* {user} */}
+        //                 </span>
+        //             )
+        //         }).catch((err) => {
+        //             console.log("Erorrrr", err);
+        //         })
+        //     }
+        // } catch (error) {
+        //     console.log("Error while fetching Plan Owner Name", error);
+        // }
+   // }
+
     // get Dropdown options for Admin tab
     // public getProposedKeyFromInterface = async (GOLDMolecule, GOLDLabelName) => {
     //     // console.log("Val",GOLDMolecule,GOLDLabelName);
@@ -9148,7 +9191,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                             <Column cellRender={e => <div>{e?.value ? format(new Date(e?.value), 'MMM-dd-yyyy') : ''}</div>} dataField="ReimbursementGeneratedX" width={200} caption="Reimbursement Generated"></Column>
                                             <Column cellRender={e => <div>{e?.value ? format(new Date(e?.value), 'MMM-dd-yyyy') : ''}</div>} dataField="ReimbursementBaseX" width={200} caption="Reimbursement Base"></Column>
                                             <Column dataField='GOLD_DLPPMappedX' caption='GOLD DLPP Mapped' width={120} />
-                                            <Column dataField='PlanOwner' caption='Plan Owner' width={200} />
+                                            <Column dataField='PlanOwner'  caption='Plan Owner' width={200} />
 
                                             <Pager showInfo={true} infoText="Total Rows: {2}" displayMode={'full'} visible={true} allowedPageSizes={pageSizes} showPageSizeSelector='true' />
                                             <Paging enabled={true} defaultPageSize={10} />
@@ -9751,7 +9794,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
 
                                             {this.state.moleculeExisted ? <div className='CommercialDiv'>
                                                 <div style={{ fontSize: '20px', fontWeight: '600', paddingLeft: '1%', display: 'flex', alignItems: 'center' }}>
-                                                    <RadioButton inputId="option1" name="selectionGroup" value='linkDR' onChange={e => this.setState({ linkOrCreateDR: e.value })} checked={this.state.linkOrCreateDR !== 'createDR' && (this.state.selectedDRID || this.state.linkOrCreateDR === 'linkDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed')} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Published' || this.state.SelectedAIMode == 'View'} />
+                                                    {/* <RadioButton inputId="option1" name="selectionGroup" value='linkDR' onChange={e => this.setState({ linkOrCreateDR: e.value })} checked={this.state.linkOrCreateDR !== 'createDR' && (this.state.selectedDRID || this.state.linkOrCreateDR === 'linkDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed')} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Published' || this.state.SelectedAIMode == 'View'} /> */}
+                                                        <Radio name="selectionGroup" value='linkDR' onChange={e => this.setState({ linkOrCreateDR: e.target.value })} checked={this.state.linkOrCreateDR !== 'createDR' && (this.state.selectedDRID || this.state.linkOrCreateDR === 'linkDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed')} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Published' || this.state.SelectedAIMode == 'View'} color='primary' />
                                                 Proposed Data Repository Programs</div>
                                                 <div style={{ paddingTop: '20px', paddingBottom: '20px', paddingLeft: '3%' }}>
                                                     <DataGrid
@@ -9793,7 +9837,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                                 </div>
                                             </div> : this.state.showLinkAndCreateIDPop ? <div className='CommercialDiv'>
                                                 <div style={{ fontSize: '20px', fontWeight: '600', paddingLeft: '1%', display: 'flex', alignItems: 'center' }}>
-                                                    <RadioButton inputId="option1" name="selectionGroup" value='linkDR' onChange={e => this.setState({ linkOrCreateDR: e.value })} checked={this.state.linkOrCreateDR !== 'createDR' && (this.state.selectedDRID || this.state.linkOrCreateDR === 'linkDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed')} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Published' || this.state.SelectedAIMode == 'View'} />
+                                                    {/* <RadioButton inputId="option1" name="selectionGroup" value='linkDR' onChange={e => this.setState({ linkOrCreateDR: e.value })} checked={this.state.linkOrCreateDR !== 'createDR' && (this.state.selectedDRID || this.state.linkOrCreateDR === 'linkDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed')} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Published' || this.state.SelectedAIMode == 'View'} /> */}
+                                                        <Radio name="selectionGroup" value='linkDR' onChange={e => this.setState({ linkOrCreateDR: e.target.value })} checked={this.state.linkOrCreateDR !== 'createDR' && (this.state.selectedDRID || this.state.linkOrCreateDR === 'linkDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed')} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Published' || this.state.SelectedAIMode == 'View'} color='primary'/>
                                                 Proposed Data Repository Programs</div>
                                                 <div style={{ paddingTop: '20px', paddingBottom: '20px', paddingLeft: '3%' }}>
                                                     <DataGrid
@@ -9836,7 +9881,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                             </div> : null}
                                             {this.state.moleculeExisted ? <div className='CommercialDiv'>
                                                 <div style={{ fontSize: '20px', fontWeight: '600', paddingLeft: '1%', marginBottom: '2rem', display: 'flex', alignItems: 'center' }}>
-                                                    <RadioButton inputId="option2" name="selectionGroup" value='createDR' onChange={e => this.setState({ linkOrCreateDR: e.value })} checked={this.state.linkOrCreateDR === 'createDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed'} />
+                                                    {/* <RadioButton inputId="option2" name="selectionGroup" value='createDR' onChange={e => this.setState({ linkOrCreateDR: e.value })} checked={this.state.linkOrCreateDR === 'createDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed'} /> */}
+                                                        <Radio name="selectionGroup" value='createDR' onChange={e => this.setState({ linkOrCreateDR: e.target.value })} checked={this.state.linkOrCreateDR === 'createDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed'} color='primary'/>
                                                     Create New Data Repository Program</div>
                                                 <div style={{ paddingLeft: '3%' }}>
                                                     <Row style={{ paddingBottom: '2%' }}>
@@ -9883,7 +9929,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                                 </div>
                                             </div> : this.state.showLinkAndCreateIDPop ? <div className='CommercialDiv'>
                                                 <div style={{ fontSize: '20px', fontWeight: '600', paddingLeft: '1%', marginBottom: '2rem', display: 'flex', alignItems: 'center' }}>
-                                                    <RadioButton inputId="option2" name="selectionGroup" value='createDR' onChange={e => this.setState({ linkOrCreateDR: e.value })} checked={this.state.linkOrCreateDR === 'createDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed'} />
+                                                    {/* <RadioButton inputId="option2" name="selectionGroup" value='createDR' onChange={e => this.setState({ linkOrCreateDR: e.value })} checked={this.state.linkOrCreateDR === 'createDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed'} /> */}
+                                                        <Radio name="selectionGroup" value='createDR' onChange={e => this.setState({ linkOrCreateDR: e.target.value })} checked={this.state.linkOrCreateDR === 'createDR' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Published'} style={{ marginRight: '1rem' }} disabled={this.state.SelectedGOLDStgData.IntegrationStatus === 'Assigned' || this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed'} color='primary'/>
                                                     Create New Data Repository Program</div>
                                                 <div style={{ paddingLeft: '3%' }}>
                                                     <Row style={{ paddingBottom: '2%' }}>
@@ -9963,14 +10010,19 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                             <div>
                                                 {this.state.RadioOptions?.map((option: any) => (
                                                     <div style={{ display: "flex", alignItems: 'center', gap: '5px', padding: '1%' }}>
-                                                        <RadioButton
+                                                        {/* <RadioButton
                                                             inputId={option.value}
                                                             name="group"
                                                             value={option.value}
                                                             onChange={(e) => this.setState({ SelectedRadioOption: option.value })}
                                                             checked={this.state.SelectedRadioOption === option.value}
                                                             disabled={this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed'}
-                                                        />
+                                                        /> */}
+                                                        <Radio name="group"
+                                                            value={option.value}
+                                                            onChange={(e) => this.setState({ SelectedRadioOption: option.value })}
+                                                            checked={this.state.SelectedRadioOption === option.value}
+                                                            disabled={this.state.SelectedAIMode == 'View' || this.state.SelectedGOLDStgData.IntegrationStatus === 'Processed'} color='primary'/>
                                                         <span>{option.label}</span>
                                                     </div>
                                                 ))}
