@@ -4180,7 +4180,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             console.log(pdlRes)
             this.setState({ confirmCreateDR: false, confirmCreateDR1: false });
 
-            await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', this.state.SelectedGOLDStgData.ID?.toString(), { MappedDRID: this.state.pdlResponse?.data?.ID.toString() ? this.state.pdlResponse?.data?.ID.toString() : this.state.selectedDRID?.toString(), MappingConfirmed: true, IntegrationStatus: 'Published', ProjectName: this.state.pTitleForDR, Brand: this.state.SelectedGOLDStgData.Brand, TradeName: this.state.SelectedGOLDStgData.TradeName, ProposedGRPKey: grpKey, ProposedMoleculeKey: molKey, ProposedLabelKey: labKey, MatchCriteria: 'Exact', UpdatedBy: this.props?.currentUser?.Title, Updated: format(new Date(), 'MMM-dd-yyyy')}).then(async res => {
+            await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', this.state.SelectedGOLDStgData.ID?.toString(), { MappedDRID: this.state.pdlResponse?.data?.ID.toString() ? this.state.pdlResponse?.data?.ID.toString() : this.state.selectedDRID?.toString(), MappingConfirmed: true, IntegrationStatus: 'Published', ProjectName: this.state.pTitleForDR, Brand: this.state.SelectedGOLDStgData.Brand, TradeName: this.state.SelectedGOLDStgData.TradeName, ProposedGRPKey: grpKey, ProposedMoleculeKey: molKey, ProposedLabelKey: labKey, MatchCriteria: 'Exact' }).then(async res => {
                 await this.getGOLDStgListData();
             })
 
@@ -4383,7 +4383,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                         item?.Indication?.split(';')?.map(ind => {
                             allInds?.push(ind?.trim())
                         })
-                        await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', item.ID?.toString(), { MappedDRID: this.state.pdlResponse?.data?.ID.toString(), MappingConfirmed: true, IntegrationStatus: 'Published', ProjectName: this.state.pTitleForDR, Brand: this.state.SelectedGOLDStgData.Brand, TradeName: this.state.SelectedGOLDStgData.TradeName, ProposedGRPKey: grpKey, ProposedMoleculeKey: molKey, ProposedLabelKey: labKey, MatchCriteria: 'Exact', UpdatedBy: this.props?.currentUser?.Title, Updated: format(new Date(), 'MMM-dd-yyyy')}).then(async res => {
+                        await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', item.ID?.toString(), { MappedDRID: this.state.pdlResponse?.data?.ID.toString(), MappingConfirmed: true, IntegrationStatus: 'Published', ProjectName: this.state.pTitleForDR, Brand: this.state.SelectedGOLDStgData.Brand, TradeName: this.state.SelectedGOLDStgData.TradeName, ProposedGRPKey: grpKey, ProposedMoleculeKey: molKey, ProposedLabelKey: labKey, MatchCriteria: 'Exact' }).then(async res => {
                             await this.getGOLDStgListData();
                         })
                     })
@@ -4564,7 +4564,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                             allInds?.push(ind?.trim())
                         })
                         // console.log(item.ID)
-                        await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', item.ID, { MappedDRID: this.state.selectedDRID.toString(), MappingConfirmed: true, IntegrationStatus: 'Assigned', ProjectName: projectDetails?.[0]?.ProjectTitle ? projectDetails?.[0]?.ProjectTitle : '', UpdatedBy: this.props?.currentUser?.Title, Updated: format(new Date(), 'MMM-dd-yyyy') }).then(async res => {
+                        await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', item.ID, { MappedDRID: this.state.selectedDRID.toString(), MappingConfirmed: true, IntegrationStatus: 'Assigned', ProjectName: projectDetails?.[0]?.ProjectTitle ? projectDetails?.[0]?.ProjectTitle : '' }).then(async res => {
                             await this.getGOLDStgListData();
                         })
                     })
@@ -4618,7 +4618,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             const goldItems = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", "*", "IsActive eq 1 and IsPlanExist ne 'Yes' and IsMerged ne 1", null)
             const filteredGoldItem = goldItems.filter((item, i) => item.MappedDRID?.includes(this.state.selectedDRID) && item?.Country == this.state.SelectedGOLDStgData.Country && this.state.SelectedGOLDStgData.Indication === item.Indication)
 
-            await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', filteredGoldItem[0]?.ID, { MappedDRID: this.state.selectedDRID.toString(), MappingConfirmed: true, IntegrationStatus: 'Assigned', ProjectName: projectDetails?.[0]?.ProjectTitle ? projectDetails?.[0]?.ProjectTitle : '', UpdatedBy: this.props?.currentUser?.Title, Updated: format(new Date(), 'MMM-dd-yyyy')}).then(async res => {
+            await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', filteredGoldItem[0]?.ID, { MappedDRID: this.state.selectedDRID.toString(), MappingConfirmed: true, IntegrationStatus: 'Assigned', ProjectName: projectDetails?.[0]?.ProjectTitle ? projectDetails?.[0]?.ProjectTitle : '' }).then(async res => {
                 await this.getGOLDStgListData();
             })
             const indicationArray = this.state.SelectedGOLDStgData?.Indication.split(';')?.map(item => item?.trim());
@@ -4669,7 +4669,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                 ids?.forEach(async id => {
                     await DataService.updateItemInList('DLPPList', id, { Commercial_ID_Primary: this.state.SelectedGOLDStgData?.GOLD_IDPrimary })
                 });
-                await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', this.state.SelectedGOLDStgData?.Id, { IntegrationStatus: "Processed", MappedDRID: this.state.selectedDRID?.toString(), MappingConfirmed: true, UpdatedBy: this.props?.currentUser?.Title, Updated: format(new Date(), 'MMM-dd-yyyy')});
+                await DataService.updateItemInList('Z_NPL_GOLD_Staging_List', this.state.SelectedGOLDStgData?.Id, { IntegrationStatus: "Processed", MappedDRID: this.state.selectedDRID?.toString(), MappingConfirmed: true });
                 await this.getGOLDStgListData();
                let allIndicationsForPList = this.state.SelectedGOLDStgData.Indication?.split(';');
                 const inds = this.removeDup(allIndicationsForPList);
@@ -9201,8 +9201,6 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                             <Column cellRender={e => <div>{e?.value ? format(new Date(e?.value), 'MMM-dd-yyyy') : ''}</div>} dataField="ReimbursementBaseX" width={200} caption="Reimbursement Base"></Column>
                                             <Column dataField='GOLD_DLPPMappedX' caption='GOLD DLPP Mapped' width={120} />
                                             <Column dataField='PlanOwner'  caption='Plan Owner' width={200} />
-                                            <Column dataField='UpdatedBy'  caption='Updated By' width={200} />
-                                            <Column dataField='Updated'  caption='Updated' width={200} />
 
                                             <Pager showInfo={true} infoText="Total Rows: {2}" displayMode={'full'} visible={true} allowedPageSizes={pageSizes} showPageSizeSelector='true' />
                                             <Paging enabled={true} defaultPageSize={10} />
