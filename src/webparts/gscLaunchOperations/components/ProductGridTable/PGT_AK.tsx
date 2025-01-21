@@ -415,7 +415,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         try {
             this.setState({ isLoading: true });
             await this.getTabNames();
-            const user = await sp.web.siteUsers.getByEmail("arpita.kulkarni@pfizer.com")?.get();
+            const user =  await sp.web.ensureUser('arpita.kulkarni@pfizer.com');
             console.log("User",user);
             if (DataService.environment === "DEV") {
                 this.props.headerText('Commercial/GOLD Projects');
@@ -5629,25 +5629,25 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             </div>
         )
     }
-  
-   // public renderPlanOwner = async (cellData) => {
-        // try {
-        //     if (cellData) {
-        //         const user = await sp.web.siteUsers.getByEmail(cellData)?.get().then((data) => {
-        //             console.log("data", data, user);
-        //             return (
-        //                 <span>
-        //                     {/* {user} */}
-        //                 </span>
-        //             )
-        //         }).catch((err) => {
-        //             console.log("Erorrrr", err);
-        //         })
-        //     }
-        // } catch (error) {
-        //     console.log("Error while fetching Plan Owner Name", error);
-        // }
-   // }
+    public getUserName = async (cellData) => {
+        const user = await sp.web.ensureUser(cellData);
+        console.log("getUserName", user);
+        return user.data.Title;
+    }
+
+    public renderPlanOwner = async (cellData) => {
+        try {
+            if (cellData) {
+                const user = await this.getUserName(cellData);
+                console.log("renderPlanOwner", user);
+                // return (
+                // <span>{user}</span>
+                // )
+            }
+        } catch (error) {
+            console.log("Error while fetching Plan Owner Name", error);
+        }
+    }
 
     // get Dropdown options for Admin tab
     // public getProposedKeyFromInterface = async (GOLDMolecule, GOLDLabelName) => {
@@ -9214,7 +9214,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                             <Column cellRender={e => <div>{e?.value ? format(new Date(e?.value), 'MMM-dd-yyyy') : ''}</div>} dataField="ReimbursementGeneratedX" width={200} caption="Reimbursement Generated"></Column>
                                             <Column cellRender={e => <div>{e?.value ? format(new Date(e?.value), 'MMM-dd-yyyy') : ''}</div>} dataField="ReimbursementBaseX" width={200} caption="Reimbursement Base"></Column>
                                             <Column dataField='GOLD_DLPPMappedX' caption='GOLD DLPP Mapped' width={120} />
-                                            <Column dataField='PlanOwner'  caption='Plan Owner' width={200} />
+                                            <Column dataField='PlanOwner' cellRender={e=>this.renderPlanOwner(e?.data?.PlanOwner)} caption='Plan Owner' width={200} />
                                             <Column dataField='UpdatedBy'  caption='Updated By' width={200} />
                                             <Column dataField='Updated'  caption='Updated' width={200} />
 
