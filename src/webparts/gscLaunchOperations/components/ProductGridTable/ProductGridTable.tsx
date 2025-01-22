@@ -156,6 +156,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
             AIActionlinkSBUSelected: null,
             linkOrCreateDR: null,
             permissionError: false,
+            DRStatusError: false,
             pTitleForDR: '',
             NewIds: [],
             SelectedGRPForNewID: '',
@@ -814,7 +815,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         //GTEL check -- check for any GOLD recs if PGS template exists, If yes update Plan Managed to GTEL
         let GTelArray = [];
         const IdsToFetch1 = filteredGolds?.map(item => item?.MappedDRID);
-        await DataService.fetchAllDRListItemsWithFilters('DLPPList', `ID,DRID,Template,Country`, `DRID ne ${null}`, '', null).then(res => {
+        await DataService.fetchAllDRListItemsWithFilters('DLPPList', `ID,DRID,Template,Country,LaunchProgress`, `DRID ne ${null}`, '', null).then(res => {
             const filteredDlpp = res?.filter(item => IdsToFetch1?.includes(item?.DRID.toString()));
             filteredDlpp?.forEach(DlppItem => {
                 filteredGolds?.forEach(goldItem => {
@@ -898,12 +899,19 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
 
     public getTabNames = async () => {
         const userGroupVal: any = await DataService.fetchItems("User Assignment", `*,NTID/Title,NTID/Id`, 'NTID');
-        const currentuserGroup = userGroupVal.filter((item) => { if (item.NTID.Title == this.props?.currentUser?.Title) { return item } })
+        const currentuserGroup = userGroupVal.filter((item) => { if (item.NTID.Title == this.props?.currentUser?.Title) { return item } });
+        let items;
+
+        const superUsers = await DataService.fetchAllItemsGenericFilter("Z_Superuser", 'UserIDId', `Active eq 1`, null);
+
         if(currentuserGroup[0].UserGroup && (currentuserGroup[0].UserGroup == 'GSC Leader_Data Steward' || currentuserGroup[0].UserGroup == 'GSC Leader' || currentuserGroup[0].UserGroup == 'Data Steward')) {
             const currentuserGroupVal = (currentuserGroup[0].UserGroup).replace(/\s/g, "");
-            const items = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Tab_Config", '*', `visible eq 1 and ${currentuserGroupVal} eq 1`, null);
+            let AllItems = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Tab_Config", '*', `${currentuserGroupVal} eq 1`, null);
+            const itemsForSuperUser = superUsers?.filter((user: any) => this.props?.currentUser?.Id == user?.UserIDId);
+
+            items = itemsForSuperUser?.length > 0 ? AllItems : AllItems?.filter(item => item?.visible === true);
+
             const sortedItems = items.sort((a, b) => (a.Order0 ?? 0) > (b.Order0 ?? 0) ? 1 : -1);
-            // console.log("getGOLDTabData", items);
             this.setState({ SelectedTabName: sortedItems[0].Title, TabNameDetails: sortedItems, permissionError: false });
         } else {
             this.setState({ isLoading: false, permissionError: true })
@@ -1460,6 +1468,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
     }
     public AddMarkets = async (type) => {
         console.log(this.state.MarketGridDataArray)
+        var regEx = /[\/,+,\.,(,)]/g;
         const result = this.state.MarketGridDataArray.map(item => {
             return {
                 LaunchPriorityCategory: item?.LaunchPriorityCategory,
@@ -1474,7 +1483,7 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                 Template: item?.DLPPManaged == "Yes" ? 'GSC_Cat3-4' : 'SIQ Managed',
                 PlanStatus: item?.DLPPManaged == "Yes" ? 'NEW' : 'NA',
                 PlanOwnerGroup: 'GSC',
-                ProjectName: DataService.environment === "PROD" ? item?.ProjectName + '-GSC-Cat3-4' : item?.ProjectName + '-DEMO-GSC-Cat3-4',
+                ProjectName: DataService.environment === "PROD" ? regEx?.test(item.ProjectName)?item.ProjectName?.replace(regEx, "_"):item.ProjectName + '-GSC-Cat3-4' : regEx?.test(item.ProjectName)?item.ProjectName?.replace(regEx, "_"):item.ProjectName + '-DEMO-GSC-Cat3-4',
                 BU: item?.BU,
                 BusinessUnit: item?.BusinessUnit,
                 TherapeuticArea: item?.TherapeuticArea,
@@ -1572,8 +1581,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                 // ProposedProjectName: this.ProposedProjectName, 
                 Template: this.state.MarketData?.DLPPManaged == "Yes" ? 'GSC_Cat3-4' : 'SIQ Managed',
                 Indication: MarketDataCopy?.Indication?.length > 0 ? MarketDataCopy?.Indication?.join(';') : '',
-                ProjectName: `${this.LABEL_NAME}${this.LABEL_NAME != '' || this.state.MarketData?.Country[index] != '' ? '-' : ''}${this.PREFIX}${this.LABEL_NAME != '' || this.state.MarketData?.Country[index] != '' ? '-' : ''}${this.state.MarketData?.Country[index]?.split("->")[1]}${this.state.MarketData?.ProjectNameSuffix != '' ? '-' : ''}${this.state.MarketData?.ProjectNameSuffix}`,
-                ProjectNameGSC: `${this.LABEL_NAME}${this.LABEL_NAME != '' || this.state.MarketData?.Country[index] != '' ? '-' : ''}${this.PREFIX}${this.LABEL_NAME != '' || this.state.MarketData?.Country[index] != '' ? '-' : ''}${this.state.MarketData?.Country[index]?.split("->")[1]}${this.state.MarketData?.ProjectNameSuffix != '' ? '-' : ''}${this.state.MarketData?.ProjectNameSuffix}${DataService.environment === "PROD" ? '-GSC-Cat3-4' : '-DEMO-GSC-Cat3-4'}`,
+                ProjectName: `${this.LABEL_NAME}${this.LABEL_NAME != '' || item.country != '' ? '-' : ''}${this.PREFIX}${this.LABEL_NAME != '' || item.country != '' ? '-' : ''}${item.country?.includes('.')?item.country?.split('.')?.join('_'):item.country}${this.state.MarketData?.ProjectNameSuffix != '' ? '-' : ''}${this.state.MarketData?.ProjectNameSuffix}`,
+                ProjectNameGSC: `${this.LABEL_NAME}${this.LABEL_NAME != '' || item.country != '' ? '-' : ''}${this.PREFIX}${this.LABEL_NAME != '' || item.country != '' ? '-' : ''}${item.country?.includes('.')?item.country?.split('.')?.join('_'):item.country}${this.state.MarketData?.ProjectNameSuffix != '' ? '-' : ''}${this.state.MarketData?.ProjectNameSuffix}${DataService.environment === "PROD" ? '-GSC-Cat3-4' : '-DEMO-GSC-Cat3-4'}`,
                 BU: this.state.SelectedIDData?.BUnit,
                 BusinessUnit: this.state.SelectedIDData?.SBUnit,
                 TherapeuticArea: this.state.SelectedIDData?.TherapeuticArea,
@@ -5998,55 +6007,69 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         return TemplateFound;
     }
     public GOLDActionlink = async (type, e, show) => {
-        this.setState({ SelectedGOLDTabMode: type, GoldTabID: e?.Id, MarketGridDataArray: [],MarketGridDataArrayCopy:[], CountryMarketRegionMap: [], selectedGOLDTabRec: e, MatchedDRIDData: [], SelectedPlan: [], showOtherTemplatePopup: false, OtherTemplateRecs: [], ShowDRIDMatchPopupWarning: false, SelectedPlanId: null });
-        this.CheckTemplates(e).then(async res => {
-            if (!res) {
-                let data = [];
-                let items = [];
-                if (!show) {
-                    const items1 = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", '*', `IsActive eq 1 and MappedDRID eq '${e.MappedDRID}' and Country eq '${e.Country}' and IsPlanExist ne 'Yes' and IsMerged ne 1 and (IntegrationStatus eq 'Assigned' or IntegrationStatus eq 'Published')`, null);
-                    //console.log("Itemsss",items);
-                    items = items1;
-                }
-                if (items?.length > 1) {
-                    this.setState({ ShowCoutryDRIDMatchPopup: true, CountryDRIDMatchData: items, showMarketPopUp: false });
-                } else {
+        let projectDetailsListName = "";
+        if (DataService.environment === "DEV") {
+            projectDetailsListName = "ProjectDetailsList";
+        }
+        else if (DataService.environment === "QA" || DataService.environment === "PROD") {
+            projectDetailsListName = "ProjectDetailsList_Prod";
+        } else {
 
+        }
+        const fetchDRdetailsFromPD = await DataService.fetchAllItemsGenericFilter(projectDetailsListName, '*', `ID eq ${e?.MappedDRID}`, null);
+        
+        if(fetchDRdetailsFromPD?.[0]?.DRStatus === false) {
+            this.setState({ DRStatusError: true })
+        } else {
+            this.setState({ SelectedGOLDTabMode: type, GoldTabID: e?.Id, MarketGridDataArray: [],MarketGridDataArrayCopy:[], CountryMarketRegionMap: [], selectedGOLDTabRec: e, MatchedDRIDData: [], SelectedPlan: [], showOtherTemplatePopup: false, OtherTemplateRecs: [], ShowDRIDMatchPopupWarning: false, SelectedPlanId: null, DRStatusError: false });
+            this.CheckTemplates(e).then(async res => {
+                if (!res) {
+                    let data = [];
+                    let items = [];
                     if (!show) {
-                        await DataService.fetchAllDRListItemsWithFilters('DLPPList', `ID,DRID,DLPPManaged,Country,ProjectName,Indication,PlanStatus`,
-                            `(DRID eq '${e?.MappedDRID}' and (Template eq 'GSC_Cat3-4' or Template eq 'SIQ Managed'))`, '', null).then(res => {
-                                const matchedRec = res?.filter((item) => {
-                                    const countryKey = item?.Country?.indexOf('->') !== -1 ? item?.Country?.split('->')[0]?.trim() : '';
-                                    return countryKey === e.ProposedCountryCode;
-                                });
-                                data = matchedRec;
-                                // console.log("DLPPMatch",matchedRec);
-                                this.setState({ MatchedDRIDData: matchedRec });
-                            });
+                        const items1 = await DataService.fetchAllItemsGenericFilter("Z_NPL_GOLD_Staging_List", '*', `IsActive eq 1 and MappedDRID eq '${e.MappedDRID}' and Country eq '${e.Country}' and IsPlanExist ne 'Yes' and IsMerged ne 1 and (IntegrationStatus eq 'Assigned' or IntegrationStatus eq 'Published')`, null);
+                        //console.log("Itemsss",items);
+                        items = items1;
                     }
-                    if (data?.length > 0) {
-                        this.setState({ ShowDRIDMatchPopup: true });
+                    if (items?.length > 1) {
+                        this.setState({ ShowCoutryDRIDMatchPopup: true, CountryDRIDMatchData: items, showMarketPopUp: false });
                     } else {
-                        this.setState({ GOLDTabDRID: e?.MappedDRID, GOLDTabCountry: e?.Country });
-                        this.setState((prev) => ({
-                            MarketData: {
-                                ...prev.MarketData,
-                                DLPPManaged: 'No',
-                                Country: this.state.SimilarCountriesArray,
-                                LaunchLeaderTitle: this.props?.currentUser?.Email ? this.props?.currentUser?.Email : [],
-                                LaunchLeader: this.props?.currentUser?.Id ? this.props?.currentUser?.Id : null,
-                                LaunchChar: '02->Market Expansion',
-                                Priority: '03->Must Win'
-                            }
-                        }));
-                        this.getProjectDetailsListDataForSelectedDRID(e?.MappedDRID, 'GOLD');
-                        this.getCountries(e?.MappedDRID, e.Indication);
-                        await this.getDLPPforSelectedDRID(e?.MappedDRID);
+    
+                        if (!show) {
+                            await DataService.fetchAllDRListItemsWithFilters('DLPPList', `ID,DRID,DLPPManaged,Country,ProjectName,Indication,PlanStatus`,
+                                `(DRID eq '${e?.MappedDRID}' and (Template eq 'GSC_Cat3-4' or Template eq 'SIQ Managed'))`, '', null).then(res => {
+                                    const matchedRec = res?.filter((item) => {
+                                        const countryKey = item?.Country?.indexOf('->') !== -1 ? item?.Country?.split('->')[0]?.trim() : '';
+                                        return countryKey === e.ProposedCountryCode;
+                                    });
+                                    data = matchedRec;
+                                    // console.log("DLPPMatch",matchedRec);
+                                    this.setState({ MatchedDRIDData: matchedRec });
+                                });
+                        }
+                        if (data?.length > 0) {
+                            this.setState({ ShowDRIDMatchPopup: true });
+                        } else {
+                            this.setState({ GOLDTabDRID: e?.MappedDRID, GOLDTabCountry: e?.Country });
+                            this.setState((prev) => ({
+                                MarketData: {
+                                    ...prev.MarketData,
+                                    DLPPManaged: 'No',
+                                    Country: this.state.SimilarCountriesArray,
+                                    LaunchLeaderTitle: this.props?.currentUser?.Email ? this.props?.currentUser?.Email : [],
+                                    LaunchLeader: this.props?.currentUser?.Id ? this.props?.currentUser?.Id : null,
+                                    LaunchChar: '02->Market Expansion',
+                                    Priority: '03->Must Win'
+                                }
+                            }));
+                            this.getProjectDetailsListDataForSelectedDRID(e?.MappedDRID, 'GOLD');
+                            this.getCountries(e?.MappedDRID, e.Indication);
+                            await this.getDLPPforSelectedDRID(e?.MappedDRID);
+                        }
                     }
                 }
-            }
-        });
-
+            });
+        }
     }
     public getDLPPforSelectedDRID = async (DRID) => {
         this.setState({ DLPPDataForSelectedDRID: [] });
@@ -8977,7 +9000,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
 
     public render(): React.ReactElement<IProductGridTable> {
         const pageSizes = [10, 25, 50, 100, 'all'];
-        var regEx = /[\/,+,.,(,),-,]/g;
+       // var regEx = /[\/,+,.,(,),-,]/g;
+       var regEx = /[\/,+,\.,(,)]/g;
         let Planisware = "PlaniswareId : " + this.state.SelectedIportData.PlaniswareID;
         // let AIEditHeader = this.state.SelectedGOLDStgData?.TradeName? this.state.SelectedGOLDStgData?.TradeName + " - " + this.state.SelectedGOLDStgData?.Molecule + " - " + 
         // this.state.SelectedGOLDStgData?.Brand + " - " + this.state.SelectedGOLDStgData?.Indication + " - " + this.state.SelectedGOLDStgData?.Country :
@@ -9002,7 +9026,8 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
         this.PREFIX = this.state.IndicationPrefix !== '' ? `${this.state.IndicationPrefix}` : '';
 
         if (this.state.MarketData?.Indication?.length > 0) {
-            this.ProposedProjectName = `${this.LABEL_NAME}${this.LABEL_NAME != '' || this.SUFFIX != '' ? '-' : ''}${this.PREFIX}${this.LABEL_NAME != '' || this.SUFFIX != '' ? '-' : ''}${this.SUFFIX}`
+            let projName = `${this.LABEL_NAME}${this.LABEL_NAME != '' || this.SUFFIX != '' ? '-' : ''}${this.PREFIX}${this.LABEL_NAME != '' || this.SUFFIX != '' ? '-' : ''}${this.SUFFIX}`
+            this.ProposedProjectName = projName?.includes('.')?projName?.split('.')?.join('_'):projName;
         } else {
             this.ProposedProjectName = '';
         }
@@ -10045,6 +10070,16 @@ export default class ProductGridTable extends React.Component<IProductGridTable,
                                             </div>
                                         </div>
                                     </Dialog>
+
+                                    <Dialog header='Warning' closable={false} visible={this.state.DRStatusError} style={{ height: '35vh', width: '45vw', }} icons='' onHide={() => this.setState({ DRStatusError: false })}>
+                                        <div>
+                                            <div style={{ color: 'black', fontWeight: 'bold' }}>Cannot create plans as selected DRID is deleted from DR, please contact Administrator.</div>
+                                            <div style={{ padding: '12px', marginLeft: '38%', marginTop: '2rem' }}>
+                                                <Button style={{ width: '30%' }} className='p-button-raised p-button-rounded saveBtn' label='Ok' onClick={() => this.setState({ DRStatusError: false })} />
+                                            </div>
+                                        </div>
+                                    </Dialog>
+
                                     <Dialog header='Confirm' closable={true} visible={this.state.planExistPop} style={{ height: '45vh', width: '55vw' }} icons='' onHide={() => this.setState({ planExistPop: false })}>
                                         <div>
                                         <div>{`Plan already exists for DRID: ${this.state.selectedDRID} and Country: ${this.state.SelectedGOLDStgData.Country} as a "GTEL" record! Kindly check with Launch Leader before "Processing" or link the Commercial-GOLD record to the existing "GTEL" record. Alternatively, click on cross button and choose to create a new Data Repository record.`}</div>
